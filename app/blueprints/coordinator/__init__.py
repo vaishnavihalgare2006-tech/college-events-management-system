@@ -1,0 +1,1 @@
+from app.blueprints.coordinator.routes import coordinator_bp

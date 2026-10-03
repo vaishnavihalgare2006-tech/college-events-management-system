@@ -1,0 +1,2368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Coordinator Dashboard | CEMS</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-switch.css') }}">
+
+    <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+
+            --pink: #ec4899;
+            --purple: #7c3aed;
+
+            --cyan: #06b6d4;
+            --green: #10b981;
+            --amber: #f59e0b;
+            --red: #ef4444;
+
+            --ink: #1e1b3a;
+            --muted: #77738a;
+
+            --bg: #f6f7fb;
+            --card: #ffffff;
+
+            --border: #e9e7f2;
+
+            --shadow:
+                0 12px 35px rgba(30, 27, 58, 0.07);
+
+            --shadow-hover:
+                0 22px 50px rgba(30, 27, 58, 0.13);
+        }
+
+
+        body {
+
+            font-family: "Inter", sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(79, 70, 229, 0.08),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(236, 72, 153, 0.07),
+                    transparent 28%
+                ),
+
+                var(--bg);
+
+            color: var(--ink);
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar {
+
+            height: 74px;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 5%;
+
+            background:
+                rgba(255, 255, 255, 0.88);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom:
+                1px solid rgba(233, 231, 242, 0.85);
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+
+        .brand-icon {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--pink)
+                );
+
+            box-shadow:
+                0 9px 22px
+                rgba(79, 70, 229, 0.28);
+
+            transform:
+                perspective(400px)
+                rotateX(4deg);
+        }
+
+
+        .brand-text {
+
+            letter-spacing: -0.4px;
+        }
+
+
+        .brand-text span {
+
+            color: var(--primary);
+        }
+
+
+        .nav-right {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+        }
+
+
+        .user-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .avatar {
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 7px 18px
+                rgba(79, 70, 229, 0.22);
+        }
+
+
+        .user-text strong {
+
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        .user-text span {
+
+            display: block;
+
+            margin-top: 2px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .logout {
+
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            color: #5f5a70;
+
+            background: #f2f1f7;
+
+            transition: 0.25s ease;
+        }
+
+
+        .logout:hover {
+
+            color: var(--red);
+
+            background: #fff0f0;
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .container {
+
+            width: min(1280px, 92%);
+
+            margin: 0 auto;
+
+            padding: 42px 0 70px;
+        }
+
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero {
+
+            position: relative;
+
+            min-height: 205px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+            padding: 38px;
+
+            margin-bottom: 28px;
+
+            overflow: hidden;
+
+            border-radius: 26px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #312e81 0%,
+                    #4f46e5 45%,
+                    #7c3aed 72%,
+                    #ec4899 100%
+                );
+
+            box-shadow:
+                0 25px 55px
+                rgba(79, 70, 229, 0.24);
+        }
+
+
+        .hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 270px;
+            height: 270px;
+
+            right: 110px;
+            top: -150px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.11);
+
+            filter: blur(1px);
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 180px;
+            height: 180px;
+
+            right: -55px;
+            bottom: -90px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 650px;
+        }
+
+
+        .hero-label {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 11px;
+
+            margin-bottom: 15px;
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.22);
+
+            border-radius: 30px;
+
+            background:
+                rgba(255, 255, 255, 0.11);
+
+            backdrop-filter: blur(8px);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            letter-spacing: 0.2px;
+        }
+
+
+        .hero-label i {
+
+            color: #a5f3fc;
+        }
+
+
+        .hero h1 {
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: clamp(27px, 4vw, 39px);
+
+            line-height: 1.15;
+
+            letter-spacing: -1.2px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .hero p {
+
+            max-width: 570px;
+
+            color:
+                rgba(255, 255, 255, 0.78);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+
+        .hero-actions {
+
+            position: relative;
+
+            z-index: 3;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            min-width: 180px;
+        }
+
+
+        .primary-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 9px;
+
+            padding: 13px 18px;
+
+            border-radius: 12px;
+
+            color: var(--ink);
+
+            background: white;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 12px 28px
+                rgba(0, 0, 0, 0.15);
+
+            transition: 0.25s ease;
+        }
+
+
+        .primary-btn:hover {
+
+            transform:
+                translateY(-3px)
+                scale(1.015);
+
+            box-shadow:
+                0 17px 35px
+                rgba(0, 0, 0, 0.20);
+        }
+
+
+        .primary-btn i {
+
+            color: var(--primary);
+        }
+
+
+        /* =====================================================
+           STATS
+        ===================================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .stat-card {
+
+            position: relative;
+
+            min-height: 155px;
+
+            padding: 22px;
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                rgba(233, 231, 242, 0.95);
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.88);
+
+            box-shadow: var(--shadow);
+
+            transform-style: preserve-3d;
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+
+        .stat-card:hover {
+
+            transform:
+                perspective(800px)
+                rotateX(3deg)
+                rotateY(-3deg)
+                translateY(-7px);
+
+            box-shadow:
+                var(--shadow-hover);
+        }
+
+
+        .stat-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 90px;
+            height: 90px;
+
+            right: -30px;
+            bottom: -35px;
+
+            border-radius: 50%;
+
+            opacity: 0.07;
+        }
+
+
+        .stat-card:nth-child(1)::after {
+            background: var(--primary);
+        }
+
+        .stat-card:nth-child(2)::after {
+            background: var(--green);
+        }
+
+        .stat-card:nth-child(3)::after {
+            background: var(--amber);
+        }
+
+        .stat-card:nth-child(4)::after {
+            background: var(--pink);
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 19px;
+        }
+
+
+        .stat-icon {
+
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            font-size: 16px;
+
+            box-shadow:
+                inset 0 1px 0
+                rgba(255, 255, 255, 0.7);
+
+            transform:
+                translateZ(18px);
+        }
+
+
+        .stat-card:nth-child(1)
+        .stat-icon {
+
+            color: var(--primary);
+
+            background: #eef0ff;
+        }
+
+
+        .stat-card:nth-child(2)
+        .stat-icon {
+
+            color: var(--green);
+
+            background: #eafaf4;
+        }
+
+
+        .stat-card:nth-child(3)
+        .stat-icon {
+
+            color: var(--amber);
+
+            background: #fff7e6;
+        }
+
+
+        .stat-card:nth-child(4)
+        .stat-icon {
+
+            color: var(--pink);
+
+            background: #fff0f7;
+        }
+
+
+        .stat-number {
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 30px;
+
+            line-height: 1;
+
+            font-weight: 800;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 7px;
+
+            transform:
+                translateZ(15px);
+        }
+
+
+        .stat-label {
+
+            color: var(--muted);
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            transform:
+                translateZ(10px);
+        }
+
+
+        /* =====================================================
+           CONTENT GRID
+        ===================================================== */
+
+        .content-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                310px;
+
+            gap: 22px;
+
+            align-items: start;
+        }
+
+
+        /* =====================================================
+           MAIN PANEL
+        ===================================================== */
+
+        .panel {
+
+            overflow: hidden;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 20px;
+
+            background: white;
+
+            box-shadow: var(--shadow);
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 21px 23px;
+
+            border-bottom:
+                1px solid
+                var(--border);
+        }
+
+
+        .panel-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+        }
+
+
+        .panel-title-icon {
+
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            color: var(--primary);
+
+            background: #eef0ff;
+        }
+
+
+        .panel-header h2 {
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 16px;
+
+            letter-spacing: -0.2px;
+        }
+
+
+        .panel-header p {
+
+            margin-top: 3px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .view-all {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            color: var(--primary);
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+
+            transition: 0.2s ease;
+        }
+
+
+        .view-all:hover {
+
+            gap: 9px;
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-wrapper {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 700px;
+        }
+
+
+        th {
+
+            padding: 13px 20px;
+
+            text-align: left;
+
+            color: #858194;
+
+            background: #faf9fd;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        td {
+
+            padding: 15px 20px;
+
+            border-top:
+                1px solid
+                #f0eef5;
+
+            font-size: 12px;
+
+            vertical-align: middle;
+        }
+
+
+        tbody tr {
+
+            transition: 0.18s ease;
+        }
+
+
+        tbody tr:hover {
+
+            background: #fbfaff;
+
+        }
+
+
+        .event-cell {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+        }
+
+
+        .event-icon {
+
+            width: 38px;
+            height: 38px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            box-shadow:
+                0 6px 15px
+                rgba(79, 70, 229, 0.18);
+        }
+
+
+        .event-name {
+
+            max-width: 190px;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+            font-weight: 750;
+        }
+
+
+        .event-sub {
+
+            margin-top: 3px;
+
+            color: #9996a8;
+
+            font-size: 10px;
+        }
+
+
+        .event-date {
+
+            color: #5e596e;
+
+            font-weight: 600;
+        }
+
+
+        .status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 6px 9px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: capitalize;
+        }
+
+
+        .status.published {
+
+            color: #087443;
+
+            background: #e7f8ef;
+        }
+
+
+        .status.draft {
+
+            color: #946200;
+
+            background: #fff4d6;
+        }
+
+
+        /* =====================================================
+           SIDE PANEL
+        ===================================================== */
+
+        .side-stack {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 18px;
+        }
+
+
+        .quick-panel {
+
+            padding: 20px;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 20px;
+
+            background: white;
+
+            box-shadow: var(--shadow);
+        }
+
+
+        .quick-title {
+
+            margin-bottom: 15px;
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 15px;
+        }
+
+
+        .quick-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 9px;
+        }
+
+
+        .quick-link {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 12px;
+
+            border-radius: 13px;
+
+            background: #faf9fd;
+
+            border:
+                1px solid
+                transparent;
+
+            transition: 0.25s ease;
+        }
+
+
+        .quick-link:hover {
+
+            border-color: #e3e0ff;
+
+            background: #f8f7ff;
+
+            transform:
+                translateX(4px);
+        }
+
+
+        .quick-icon {
+
+            width: 37px;
+            height: 37px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+        }
+
+
+        .quick-link:nth-child(1)
+        .quick-icon {
+
+            color: var(--primary);
+
+            background: #eef0ff;
+        }
+
+
+        .quick-link:nth-child(2)
+        .quick-icon {
+
+            color: var(--green);
+
+            background: #eafaf4;
+        }
+
+
+        .quick-link:nth-child(3)
+        .quick-icon {
+
+            color: var(--amber);
+
+            background: #fff7e6;
+        }
+
+
+        .quick-link:nth-child(4)
+        .quick-icon {
+
+            color: var(--pink);
+
+            background: #fff0f7;
+        }
+
+
+        .quick-content strong {
+
+            display: block;
+
+            font-size: 12px;
+        }
+
+
+        .quick-content span {
+
+            display: block;
+
+            margin-top: 3px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        .quick-arrow {
+
+            margin-left: auto;
+
+            color: #aaa6b7;
+
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           INSIGHT CARD
+        ===================================================== */
+
+        .insight-card {
+
+            position: relative;
+
+            padding: 22px;
+
+            overflow: hidden;
+
+            border-radius: 20px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111827,
+                    #312e81
+                );
+
+            box-shadow:
+                0 18px 40px
+                rgba(30, 27, 58, 0.20);
+        }
+
+
+        .insight-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 120px;
+            height: 120px;
+
+            right: -50px;
+            top: -50px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(236, 72, 153, 0.20);
+        }
+
+
+        .insight-icon {
+
+            position: relative;
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 15px;
+
+            border-radius: 12px;
+
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.13);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.13);
+        }
+
+
+        .insight-card h3 {
+
+            position: relative;
+
+            margin-bottom: 7px;
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 15px;
+        }
+
+
+        .insight-card p {
+
+            position: relative;
+
+            color:
+                rgba(255, 255, 255, 0.66);
+
+            font-size: 11px;
+
+            line-height: 1.65;
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty {
+
+            padding: 60px 20px;
+
+            text-align: center;
+
+            color: var(--muted);
+        }
+
+
+        .empty-icon {
+
+            width: 56px;
+            height: 56px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 14px;
+
+            border-radius: 15px;
+
+            color: #aaa6b7;
+
+            background: #f3f2f7;
+
+            font-size: 22px;
+        }
+
+
+        .empty h3 {
+
+            margin-bottom: 6px;
+
+            color: var(--ink);
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 15px;
+        }
+
+
+        .empty p {
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           FLOATING DECORATION
+        ===================================================== */
+
+        .floating-shape {
+
+            position: fixed;
+
+            z-index: -1;
+
+            pointer-events: none;
+
+            border-radius: 50%;
+
+            filter: blur(1px);
+
+            opacity: 0.45;
+        }
+
+
+        .shape-one {
+
+            width: 150px;
+            height: 150px;
+
+            left: -70px;
+            top: 35%;
+
+            background:
+                rgba(79, 70, 229, 0.08);
+        }
+
+
+        .shape-two {
+
+            width: 190px;
+            height: 190px;
+
+            right: -100px;
+            bottom: 8%;
+
+            background:
+                rgba(236, 72, 153, 0.08);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .content-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .side-stack {
+
+                display: grid;
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                padding:
+                    0 4%;
+            }
+
+
+            .user-text {
+
+                display: none;
+            }
+
+
+            .container {
+
+                width: 92%;
+
+                padding-top: 25px;
+            }
+
+
+            .hero {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                padding: 28px;
+
+                min-height:
+                    auto;
+            }
+
+
+            .hero-actions {
+
+                width: 100%;
+            }
+
+
+            .primary-btn {
+
+                width: 100%;
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .side-stack {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .panel-header {
+
+                padding:
+                    18px;
+            }
+
+
+            .view-all {
+
+                font-size: 11px;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .brand-text {
+
+                font-size: 18px;
+            }
+
+
+            .brand-icon {
+
+                width: 38px;
+                height: 38px;
+            }
+
+
+            .hero h1 {
+
+                font-size: 26px;
+            }
+
+
+            .hero p {
+
+                font-size: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     BACKGROUND DECORATION
+===================================================== -->
+
+<div class="floating-shape shape-one"></div>
+
+<div class="floating-shape shape-two"></div>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <a
+        href="{{ url_for('coordinator.dashboard') }}"
+        class="brand"
+    >
+
+        <span class="brand-icon">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+        </span>
+
+        <span class="brand-text">
+            CEMS<span>.</span>
+        </span>
+
+    </a>
+
+
+    <div class="nav-right">
+
+        <button
+            class="theme-switch"
+            id="themeToggle"
+            type="button"
+            aria-label="Switch to dark mode"
+            aria-pressed="false"
+        >
+            <span class="theme-switch-track">
+                <span class="theme-icon sun">
+                    <i class="fa-solid fa-sun"></i>
+                </span>
+
+                <span class="theme-icon moon">
+                    <i class="fa-solid fa-moon"></i>
+                </span>
+
+                <span class="theme-switch-thumb"></span>
+            </span>
+        </button>
+
+        <div class="user-info">
+
+            <div class="avatar">
+
+                {{ user.name[0]|upper }}
+
+            </div>
+
+
+            <div class="user-text">
+
+                <strong>
+                    {{ user.name }}
+                </strong>
+
+                <span>
+                    College Coordinator
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('auth.logout') }}"
+            class="logout"
+            title="Logout"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-label">
+
+                <i class="fa-solid fa-sparkles"></i>
+
+                CEMS Coordinator Portal
+
+            </div>
+
+
+            <h1>
+                Welcome back, {{ user.name }}
+            </h1>
+
+
+            <p>
+                Manage college events, monitor registrations
+                and keep student participation organized from
+                one central dashboard.
+            </p>
+
+        </div>
+
+
+        <div class="hero-actions">
+
+            <a
+                href="{{ url_for('coordinator.create_event') }}"
+                class="primary-btn"
+            >
+
+                <i class="fa-solid fa-plus"></i>
+
+                Create New Event
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         STATISTICS
+    ================================================== -->
+
+    <section class="stats">
+
+
+        <!-- TOTAL EVENTS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-calendar-days"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ total_events }}
+
+            </div>
+
+
+            <div class="stat-label">
+
+                Total Events
+
+            </div>
+
+        </div>
+
+
+
+        <!-- PUBLISHED EVENTS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ published_events }}
+
+            </div>
+
+
+            <div class="stat-label">
+
+                Published Events
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DRAFT EVENTS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-file-lines"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ draft_events }}
+
+            </div>
+
+
+            <div class="stat-label">
+
+                Draft Events
+
+            </div>
+
+        </div>
+
+
+
+        <!-- REGISTRATIONS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-number">
+
+                {{ total_registrations }}
+
+            </div>
+
+
+            <div class="stat-label">
+
+                Student Registrations
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         CONTENT GRID
+    ================================================== -->
+
+    <div class="content-grid">
+
+
+        <!-- =================================================
+             RECENT EVENTS
+        ================================================== -->
+
+        <section class="panel">
+
+
+            <div class="panel-header">
+
+                <div class="panel-title">
+
+                    <div class="panel-title-icon">
+
+                        <i class="fa-solid fa-calendar-check"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            Recent Events
+                        </h2>
+
+                        <p>
+                            Latest events created by you
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <a
+                    href="/coordinator/events"
+                    class="view-all"
+                >
+
+                    Manage Events
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </a>
+
+            </div>
+
+
+
+            {% if recent_events %}
+
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Event
+                                </th>
+
+                                <th>
+                                    Category
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Venue
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            {% for event in recent_events %}
+
+                                <tr>
+
+
+                                    <!-- EVENT -->
+
+                                    <td>
+
+                                        <div class="event-cell">
+
+                                            <div class="event-icon">
+
+                                                <i class="fa-solid fa-calendar-day"></i>
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <div class="event-name">
+
+                                                    {{ event.title }}
+
+                                                </div>
+
+
+                                                <div class="event-sub">
+
+                                                    Event #{{ event.id }}
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+
+                                    <!-- CATEGORY -->
+
+                                    <td>
+
+                                        {{ event.category }}
+
+                                    </td>
+
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+
+                                        <span class="event-date">
+
+                                            {{ event.event_date.strftime('%d %b %Y') }}
+
+                                        </span>
+
+                                    </td>
+
+
+
+                                    <!-- VENUE -->
+
+                                    <td>
+
+                                        {{ event.venue }}
+
+                                    </td>
+
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+                                        <span
+                                            class="status {{ event.status }}"
+                                        >
+
+                                            {% if event.status == "published" %}
+
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                            {% else %}
+
+                                                <i class="fa-solid fa-file"></i>
+
+                                            {% endif %}
+
+                                            {{ event.status }}
+
+                                        </span>
+
+                                    </td>
+
+
+                                </tr>
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+
+                <!-- EMPTY STATE -->
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-regular fa-calendar-xmark"></i>
+
+                    </div>
+
+
+                    <h3>
+                        No events yet
+                    </h3>
+
+
+                    <p>
+                        Create your first college event to get started.
+                    </p>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             RIGHT SIDEBAR
+        ================================================== -->
+
+        <aside class="side-stack">
+
+
+            <!-- QUICK ACTIONS -->
+
+            <section class="quick-panel">
+
+                <h3 class="quick-title">
+
+                    Quick Actions
+
+                </h3>
+
+
+                <div class="quick-list">
+
+
+                    <!-- CREATE EVENT -->
+
+                   <a
+    href="{{ url_for('coordinator.create_event') }}"
+    class="quick-link"
+>
+
+                        <div class="quick-icon">
+
+                            <i class="fa-solid fa-plus"></i>
+
+                        </div>
+
+
+                        <div class="quick-content">
+
+                            <strong>
+                                Create Event
+                            </strong>
+
+                            <span>
+                                Add a new college event
+                            </span>
+
+                        </div>
+
+
+                        <i
+                            class="fa-solid fa-chevron-right quick-arrow"
+                        ></i>
+
+                    </a>
+
+
+
+                    <!-- MANAGE EVENTS -->
+
+                    <a
+                        href="/coordinator/events"
+                        class="quick-link"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="fa-solid fa-calendar-check"></i>
+
+                        </div>
+
+
+                        <div class="quick-content">
+
+                            <strong>
+                                Manage Events
+                            </strong>
+
+                            <span>
+                                Edit and publish events
+                            </span>
+
+                        </div>
+
+
+                        <i
+                            class="fa-solid fa-chevron-right quick-arrow"
+                        ></i>
+
+                    </a>
+
+
+
+                    <!-- REGISTRATIONS -->
+
+                    <a
+                        href="{{ url_for('coordinator.registrations') }}"
+                        class="quick-link"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="fa-solid fa-users"></i>
+
+                        </div>
+
+
+                        <div class="quick-content">
+
+                            <strong>
+                                Registrations
+                            </strong>
+
+                            <span>
+                                View student registrations
+                            </span>
+
+                        </div>
+
+
+                        <i
+                            class="fa-solid fa-chevron-right quick-arrow"
+                        ></i>
+
+                    </a>
+
+
+
+                    <!-- REPORTS -->
+
+                    <a
+                        href="{{ url_for('coordinator.reports') }}"
+                        class="quick-link"
+                    >
+
+                        <div class="quick-icon">
+
+                            <i class="fa-solid fa-chart-column"></i>
+
+                        </div>
+
+
+                        <div class="quick-content">
+
+                            <strong>
+                                Reports
+                            </strong>
+
+                            <span>
+                                Analyze event participation
+                            </span>
+
+                        </div>
+
+
+                        <i
+                            class="fa-solid fa-chevron-right quick-arrow"
+                        ></i>
+
+                    </a>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- INSIGHT -->
+
+            <section class="insight-card">
+
+                <div class="insight-icon">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+
+                <h3>
+                    Event Management
+                </h3>
+
+
+                <p>
+
+                    Keep your events organized, monitor
+                    participation and manage student
+                    registrations from one place.
+
+                </p>
+
+            </section>
+
+
+        </aside>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<script>
+    /*
+     * Subtle mouse movement effect
+     * for statistic cards.
+     */
+
+    const cards =
+        document.querySelectorAll(".stat-card");
+
+
+    cards.forEach(function(card) {
+
+        card.addEventListener(
+            "mousemove",
+            function(event) {
+
+                if (window.innerWidth < 900) {
+                    return;
+                }
+
+                const rect =
+                    card.getBoundingClientRect();
+
+                const x =
+                    event.clientX - rect.left;
+
+                const y =
+                    event.clientY - rect.top;
+
+                const centerX =
+                    rect.width / 2;
+
+                const centerY =
+                    rect.height / 2;
+
+                const rotateY =
+                    ((x - centerX) / centerX) * 3;
+
+                const rotateX =
+                    ((centerY - y) / centerY) * 3;
+
+                card.style.transform =
+                    `perspective(800px)
+                     rotateX(${rotateX}deg)
+                     rotateY(${rotateY}deg)
+                     translateY(-7px)`;
+
+            }
+        );
+
+
+        card.addEventListener(
+            "mouseleave",
+            function() {
+
+                card.style.transform = "";
+
+            }
+        );
+
+    });
+
+
+</script>
+
+
+</body>
+
+</html>

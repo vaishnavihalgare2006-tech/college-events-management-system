@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Discover college events - CEMS"
+    >
+
+    <title>Discover Events | CEMS</title>
+
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-dark: #4338CA;
+            --secondary: #EC4899;
+            --cyan: #06B6D4;
+            --emerald: #10B981;
+            --amber: #F59E0B;
+
+            --ink: #1E1B3A;
+            --text: #334155;
+            --muted: #64748B;
+
+            --background: #F8FAFC;
+            --surface: #FFFFFF;
+            --border: #E2E8F0;
+
+            --radius-sm: 9px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+
+            --shadow-sm:
+                0 4px 14px rgba(30, 27, 58, 0.06);
+
+            --shadow-md:
+                0 12px 32px rgba(30, 27, 58, 0.10);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background: var(--background);
+            color: var(--ink);
+
+            font-family:
+                Inter,
+                Arial,
+                sans-serif;
+
+            line-height: 1.5;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================== */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            height: 72px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 32px;
+
+            background:
+                rgba(255, 255, 255, 0.95);
+
+            backdrop-filter: blur(14px);
+
+            border-bottom:
+                1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background: var(--primary);
+            color: white;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            box-shadow:
+                0 6px 14px rgba(79, 70, 229, 0.25);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            color: white;
+
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .user-role {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .logout-btn {
+            padding: 9px 14px;
+
+            border:
+                1px solid #FECACA;
+
+            border-radius: 9px;
+
+            background: #FEF2F2;
+            color: #B91C1C;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: #FEE2E2;
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           PAGE
+        ========================== */
+
+        .page {
+            width: min(
+                1280px,
+                calc(100% - 48px)
+            );
+
+            margin: auto;
+
+            padding:
+                38px 0 60px;
+        }
+
+        /* =========================
+           PAGE HEADER
+        ========================== */
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            margin-bottom: 25px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+
+            margin-bottom: 9px;
+
+            padding:
+                5px 9px;
+
+            border-radius: 999px;
+
+            background: #EEF2FF;
+            color: var(--primary);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .page-title {
+            font-size:
+                clamp(28px, 4vw, 38px);
+
+            line-height: 1.1;
+
+            letter-spacing: -0.8px;
+        }
+
+        .page-description {
+            max-width: 650px;
+
+            margin-top: 8px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 10px 14px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: var(--text);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+        .back-link:hover {
+            border-color: #C7D2FE;
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           SEARCH PANEL
+        ========================== */
+
+        .filter-panel {
+            margin-bottom: 28px;
+
+            padding: 18px;
+
+            background: white;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius-md);
+
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-form {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                210px
+                auto
+                auto;
+
+            gap: 10px;
+
+            align-items: end;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .field label {
+            color: var(--text);
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .input,
+        .select {
+            width: 100%;
+
+            height: 43px;
+
+            padding:
+                0 13px;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 9px;
+
+            outline: none;
+
+            background: #FAFBFC;
+
+            color: var(--ink);
+
+            font-size: 12px;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .input:focus,
+        .select:focus {
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(79, 70, 229, 0.10);
+
+            background: white;
+        }
+
+        .filter-btn,
+        .clear-btn {
+            height: 43px;
+
+            padding:
+                0 17px;
+
+            border-radius: 9px;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+        }
+
+        .filter-btn {
+            border:
+                1px solid var(--primary);
+
+            background: var(--primary);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .clear-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border:
+                1px solid var(--border);
+
+            background: white;
+            color: var(--text);
+        }
+
+        .clear-btn:hover {
+            border-color: #C7D2FE;
+            color: var(--primary);
+        }
+
+        /* =========================
+           RESULTS HEADER
+        ========================== */
+
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 14px;
+        }
+
+        .results-title {
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .results-count {
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           EVENT GRID
+        ========================== */
+
+        .event-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+        .event-card {
+            display: flex;
+            flex-direction: column;
+
+            min-width: 0;
+
+            background: white;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius-lg);
+
+            overflow: hidden;
+
+            box-shadow: var(--shadow-sm);
+
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                border-color 0.22s ease;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow: var(--shadow-md);
+
+            border-color:
+                #C7D2FE;
+        }
+
+        /* =========================
+           EVENT VISUAL
+        ========================== */
+
+        .event-visual {
+            position: relative;
+
+            height: 150px;
+
+            display: flex;
+            align-items: flex-end;
+
+            padding: 18px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4F46E5,
+                    #7C3AED,
+                    #EC4899
+                );
+        }
+
+        .event-visual::before {
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            right: -55px;
+            top: -65px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+        }
+
+        .event-visual::after {
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            left: 35%;
+            bottom: -75px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+        }
+
+        .event-date {
+            position: relative;
+            z-index: 2;
+
+            width: 58px;
+            height: 64px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255, 255, 255, 0.96);
+
+            color: var(--primary);
+
+            box-shadow:
+                0 7px 18px
+                rgba(0, 0, 0, 0.12);
+        }
+
+        .event-date-month {
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+        }
+
+        .event-date-day {
+            font-size: 23px;
+            font-weight: 900;
+
+            line-height: 1;
+        }
+
+        .registered-badge {
+            position: absolute;
+
+            right: 15px;
+            top: 15px;
+
+            z-index: 3;
+
+            padding:
+                6px 9px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(16, 185, 129, 0.95);
+
+            color: white;
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        /* =========================
+           EVENT BODY
+        ========================== */
+
+        .event-body {
+            display: flex;
+            flex-direction: column;
+
+            flex: 1;
+
+            padding: 20px;
+        }
+
+        .event-category {
+            align-self: flex-start;
+
+            margin-bottom: 9px;
+
+            padding:
+                5px 8px;
+
+            border-radius: 6px;
+
+            background: #EEF2FF;
+            color: var(--primary);
+
+            font-size: 9px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .event-title {
+            min-height: 44px;
+
+            margin-bottom: 12px;
+
+            color: var(--ink);
+
+            font-size: 17px;
+            font-weight: 800;
+
+            line-height: 1.3;
+        }
+
+        .event-info {
+            display: flex;
+            flex-direction: column;
+
+            gap: 8px;
+
+            margin-bottom: 18px;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        .info-icon {
+            width: 25px;
+            height: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 7px;
+
+            background: #F8FAFC;
+
+            color: var(--primary);
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .event-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 10px;
+
+            margin-top: auto;
+
+            padding-top: 15px;
+
+            border-top:
+                1px solid #F1F5F9;
+        }
+
+        .capacity {
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+        .view-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 110px;
+
+            padding:
+                9px 13px;
+
+            border-radius: 8px;
+
+            background: var(--primary);
+            color: white;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            transition: 0.2s ease;
+        }
+
+        .view-btn:hover {
+            background: var(--primary-dark);
+
+            transform:
+                translateY(-1px);
+        }
+
+        .registered-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 110px;
+
+            padding:
+                9px 13px;
+
+            border-radius: 8px;
+
+            background: #ECFDF5;
+            color: #047857;
+
+            border:
+                1px solid #A7F3D0;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================== */
+
+        .empty-state {
+            padding:
+                70px 25px;
+
+            background: white;
+
+            border:
+                1px solid var(--border);
+
+            border-radius: var(--radius-lg);
+
+            text-align: center;
+
+            box-shadow: var(--shadow-sm);
+        }
+
+        .empty-icon {
+            width: 60px;
+            height: 60px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin:
+                0 auto 15px;
+
+            border-radius: 16px;
+
+            background: #EEF2FF;
+            color: var(--primary);
+
+            font-size: 16px;
+            font-weight: 900;
+        }
+
+        .empty-state h2 {
+            margin-bottom: 6px;
+
+            font-size: 18px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .footer {
+            margin-top: 40px;
+
+            padding-top: 20px;
+
+            border-top:
+                1px solid var(--border);
+
+            color: var(--muted);
+
+            text-align: center;
+
+            font-size: 11px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 1050px) {
+
+            .event-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .filter-form {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                height: 64px;
+                padding: 0 18px;
+            }
+
+            .user-details {
+                display: none;
+            }
+
+            .page {
+                width:
+                    calc(100% - 28px);
+
+                padding-top: 25px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+
+                gap: 15px;
+            }
+
+            .filter-form {
+                grid-template-columns: 1fr;
+            }
+
+            .event-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .brand span {
+                display: none;
+            }
+
+            .page-title {
+                font-size: 29px;
+            }
+
+            .event-body {
+                padding: 17px;
+            }
+
+            .event-visual {
+                height: 135px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
+    <header class="navbar">
+
+        <a
+            href="{{ url_for('student.home') }}"
+            class="brand"
+        >
+
+            <div class="brand-icon">
+                CE
+            </div>
+
+            <span>
+                CEMS
+            </span>
+
+        </a>
+
+
+        <div class="nav-right">
+
+            <div class="nav-user">
+
+                <div class="avatar">
+                    {{ user.name[0]|upper }}
+                </div>
+
+                <div class="user-details">
+
+                    <div class="user-name">
+                        {{ user.name }}
+                    </div>
+
+                    <div class="user-role">
+                        Student
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('auth.logout') }}"
+                class="logout-btn"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <main class="page">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <section class="page-header">
+
+            <div>
+
+                <div class="eyebrow">
+                    Student Portal
+                </div>
+
+                <h1 class="page-title">
+                    Discover Events
+                </h1>
+
+                <p class="page-description">
+                    Explore upcoming college events,
+                    activities and programs happening
+                    across your campus.
+                </p>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('student.home') }}"
+                class="back-link"
+            >
+                ← Dashboard
+            </a>
+
+        </section>
+
+
+        <!-- =========================
+             FILTERS
+        ========================== -->
+
+        <section class="filter-panel">
+
+            <form
+                method="GET"
+                action="{{ url_for('student.events') }}"
+                class="filter-form"
+            >
+
+                <div class="field">
+
+                    <label for="search">
+                        Search Events
+                    </label>
+
+                    <input
+                        id="search"
+                        name="search"
+                        type="text"
+                        class="input"
+                        placeholder="Search by event name..."
+                        value="{{ search }}"
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="category">
+                        Category
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        class="select"
+                    >
+
+                        <option value="">
+                            All Categories
+                        </option>
+
+                        {% for item in categories %}
+
+                            <option
+                                value="{{ item }}"
+                                {% if selected_category == item %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ item }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="filter-btn"
+                >
+                    Search
+                </button>
+
+
+                {% if search or selected_category %}
+
+                    <a
+                        href="{{ url_for('student.events') }}"
+                        class="clear-btn"
+                    >
+                        Clear
+                    </a>
+
+                {% else %}
+
+                    <div></div>
+
+                {% endif %}
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             RESULTS
+        ========================== -->
+
+        <div class="results-header">
+
+            <div class="results-title">
+                Available Events
+            </div>
+
+            <div class="results-count">
+
+                {{ events|length }}
+                event{% if events|length != 1 %}s{% endif %}
+
+            </div>
+
+        </div>
+
+
+        {% if events %}
+
+            <section class="event-grid">
+
+                {% for event in events %}
+
+                    <article class="event-card">
+
+                        <!-- EVENT VISUAL -->
+
+                        <div class="event-visual">
+
+                            {% if event.id in registered_event_ids %}
+
+                                <span
+                                    class="registered-badge"
+                                >
+                                    ✓ Registered
+                                </span>
+
+                            {% endif %}
+
+
+                            <div class="event-date">
+
+                                <div
+                                    class="event-date-month"
+                                >
+                                    {{
+                                        event.event_date.strftime(
+                                            '%b'
+                                        )
+                                    }}
+                                </div>
+
+                                <div
+                                    class="event-date-day"
+                                >
+                                    {{
+                                        event.event_date.strftime(
+                                            '%d'
+                                        )
+                                    }}
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- EVENT BODY -->
+
+                        <div class="event-body">
+
+                            {% if event.category %}
+
+                                <span
+                                    class="event-category"
+                                >
+                                    {{ event.category }}
+                                </span>
+
+                            {% endif %}
+
+
+                            <h2 class="event-title">
+                                {{ event.title }}
+                            </h2>
+
+
+                            <div class="event-info">
+
+                                <div class="info-row">
+
+                                    <span class="info-icon">
+                                        V
+                                    </span>
+
+                                    <span>
+                                        {{ event.venue }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-row">
+
+                                    <span class="info-icon">
+                                        T
+                                    </span>
+
+                                    <span>
+
+                                        {{
+                                            event.start_time.strftime(
+                                                '%I:%M %p'
+                                            )
+                                        }}
+
+                                        -
+
+                                        {{
+                                            event.end_time.strftime(
+                                                '%I:%M %p'
+                                            )
+                                        }}
+
+                                    </span>
+
+                                </div>
+
+
+                                <div class="info-row">
+
+                                    <span class="info-icon">
+                                        C
+                                    </span>
+
+                                    <span>
+                                        Capacity:
+                                        {{ event.capacity }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="event-footer">
+
+                                <span class="capacity">
+                                    College Event
+                                </span>
+
+
+                                {% if event.id in registered_event_ids %}
+
+                                    <a
+                                        href="{{
+                                            url_for(
+                                                'student.event_detail',
+                                                event_id=event.id
+                                            )
+                                        }}"
+                                        class="registered-btn"
+                                    >
+                                        ✓ Registered
+                                    </a>
+
+                                {% else %}
+
+                                    <a
+                                        href="{{
+                                            url_for(
+                                                'student.event_detail',
+                                                event_id=event.id
+                                            )
+                                        }}"
+                                        class="view-btn"
+                                    >
+                                        View Details
+                                    </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </section>
+
+        {% else %}
+
+            <!-- EMPTY STATE -->
+
+            <section class="empty-state">
+
+                <div class="empty-icon">
+                    EV
+                </div>
+
+                <h2>
+                    No events found
+                </h2>
+
+                <p>
+                    Try changing your search or
+                    selecting a different category.
+                </p>
+
+            </section>
+
+        {% endif %}
+
+
+        <footer class="footer">
+
+            College Event Management System
+            &nbsp;•&nbsp;
+            Student Event Discovery
+
+        </footer>
+
+    </main>
+
+</body>
+
+</html>

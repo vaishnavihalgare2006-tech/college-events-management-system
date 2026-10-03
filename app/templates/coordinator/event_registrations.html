@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Event Registrations | CEMS</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        :root {
+            --primary: #4f46e5;
+            --purple: #7c3aed;
+            --pink: #ec4899;
+            --green: #10b981;
+            --red: #ef4444;
+            --amber: #f59e0b;
+
+            --ink: #1e1b3a;
+            --muted: #77738a;
+            --bg: #f5f5fb;
+
+            --shadow:
+                0 20px 55px rgba(30, 27, 58, 0.09);
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: "Inter", sans-serif;
+
+            color: var(--ink);
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 5% 10%,
+                    rgba(79, 70, 229, 0.10),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 95% 15%,
+                    rgba(236, 72, 153, 0.08),
+                    transparent 25%
+                ),
+                var(--bg);
+
+            overflow-x: hidden;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        /* =====================================================
+           BACKGROUND
+        ====================================================== */
+
+        .bg-orb {
+            position: fixed;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            z-index: -1;
+
+            filter: blur(2px);
+
+            opacity: .65;
+
+            animation: float 10s ease-in-out infinite;
+        }
+
+
+        .orb-one {
+            width: 260px;
+            height: 260px;
+
+            left: -100px;
+            top: 180px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(79,70,229,.15),
+                    transparent 70%
+                );
+        }
+
+
+        .orb-two {
+            width: 320px;
+            height: 320px;
+
+            right: -130px;
+            bottom: 60px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(236,72,153,.13),
+                    transparent 70%
+                );
+
+            animation-delay: -4s;
+        }
+
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-25px);
+            }
+
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ====================================================== */
+
+        .navbar {
+            height: 72px;
+
+            padding: 0 5.5%;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+
+            background:
+                rgba(255,255,255,.78);
+
+            backdrop-filter: blur(20px);
+
+            border-bottom:
+                1px solid rgba(30,27,58,.07);
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+
+        .brand-icon {
+            width: 41px;
+            height: 41px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--pink)
+                );
+
+            box-shadow:
+                0 9px 22px
+                rgba(79,70,229,.25);
+        }
+
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .user-info {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            font-weight: 800;
+        }
+
+
+        .user-text strong {
+            display: block;
+
+            font-size: 13px;
+        }
+
+
+        .user-text span {
+            display: block;
+
+            margin-top: 2px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        .logout {
+            width: 39px;
+            height: 39px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            color: #666174;
+
+            background:
+                rgba(30,27,58,.06);
+
+            transition: .2s;
+        }
+
+
+        .logout:hover {
+            color: var(--red);
+
+            background:
+                rgba(239,68,68,.09);
+
+            transform: translateY(-2px);
+        }
+
+
+        /* =====================================================
+           FLASH MESSAGES
+        ====================================================== */
+
+        .flash-container {
+            margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .flash {
+            padding: 13px 18px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(30, 27, 58, 0.05);
+        }
+
+        .flash.success {
+            color: #087443;
+            background: #ebfaf3;
+            border: 1px solid #c9f0dc;
+        }
+
+        .flash.danger {
+            color: #b42318;
+            background: #fff0f0;
+            border: 1px solid #ffd6d6;
+        }
+
+        .flash.warning {
+            color: #946200;
+            background: #fff7df;
+            border: 1px solid #f5df9f;
+        }
+
+        .flash.info {
+            color: #155eef;
+            background: #eff6ff;
+            border: 1px solid #d7e8ff;
+        }
+
+
+        /* =====================================================
+           PAGE
+        ====================================================== */
+
+        .page {
+            width: min(1250px, 92%);
+
+            margin: auto;
+
+            padding: 38px 0 70px;
+        }
+
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 8px;
+
+            color: var(--muted);
+
+            font-size: 13px;
+            font-weight: 700;
+
+            margin-bottom: 25px;
+
+            transition: .2s;
+        }
+
+
+        .back-link:hover {
+            color: var(--primary);
+
+            transform: translateX(-3px);
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+
+            gap: 25px;
+
+            margin-bottom: 28px;
+        }
+
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            color: var(--primary);
+
+            background:
+                rgba(79,70,229,.08);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+
+            margin-bottom: 12px;
+        }
+
+
+        h1 {
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: clamp(28px,4vw,42px);
+
+            line-height: 1.1;
+
+            letter-spacing: -.04em;
+
+            margin-bottom: 8px;
+        }
+
+
+        .gradient {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple),
+                    var(--pink)
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+
+        .subtitle {
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           EVENT CHIP
+        ====================================================== */
+
+        .event-chip {
+            padding: 16px 18px;
+
+            min-width: 270px;
+
+            border-radius: 17px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--purple)
+                );
+
+            box-shadow:
+                0 18px 40px
+                rgba(79,70,229,.22);
+
+            transform:
+                perspective(800px)
+                rotateY(-3deg);
+
+            transition: .3s;
+        }
+
+
+        .event-chip:hover {
+            transform:
+                perspective(800px)
+                rotateY(0deg)
+                translateY(-3px);
+        }
+
+
+        .event-chip-label {
+            font-size: 9px;
+
+            font-weight: 800;
+
+            opacity: .7;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+        }
+
+
+        .event-chip-title {
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 16px;
+            font-weight: 800;
+
+            margin-top: 7px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+
+        /* =====================================================
+           STATS
+        ====================================================== */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 24px;
+        }
+
+
+        .stat {
+            position: relative;
+
+            padding: 20px;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,.82);
+
+            border:
+                1px solid rgba(255,255,255,.9);
+
+            box-shadow: var(--shadow);
+
+            backdrop-filter: blur(16px);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+        }
+
+
+        .stat:hover {
+            transform:
+                perspective(800px)
+                rotateX(3deg)
+                rotateY(-3deg)
+                translateY(-5px);
+
+            box-shadow:
+                0 28px 65px
+                rgba(30,27,58,.13);
+        }
+
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            margin-bottom: 14px;
+        }
+
+
+        .stat.total .stat-icon {
+            color: var(--primary);
+
+            background:
+                rgba(79,70,229,.10);
+        }
+
+
+        .stat.present .stat-icon {
+            color: var(--green);
+
+            background:
+                rgba(16,185,129,.10);
+        }
+
+
+        .stat.absent .stat-icon {
+            color: var(--red);
+
+            background:
+                rgba(239,68,68,.10);
+        }
+
+
+        .stat.pending .stat-icon {
+            color: var(--amber);
+
+            background:
+                rgba(245,158,11,.10);
+        }
+
+
+        .stat-number {
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+
+        .stat-label {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+
+        /* =====================================================
+           TOOLBAR
+        ====================================================== */
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .search-box {
+            position: relative;
+
+            width: min(350px,100%);
+        }
+
+
+        .search-box i {
+            position: absolute;
+
+            left: 13px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #9b97aa;
+
+            font-size: 12px;
+        }
+
+
+        .search-box input {
+            width: 100%;
+
+            height: 43px;
+
+            padding: 0 14px 0 36px;
+
+            border:
+                1px solid #e2e0eb;
+
+            border-radius: 11px;
+
+            background:
+                rgba(255,255,255,.85);
+
+            outline: none;
+
+            font-size: 12px;
+
+            transition: .2s;
+        }
+
+
+        .search-box input:focus {
+            border-color: var(--primary);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(79,70,229,.08);
+        }
+
+
+        .download-btn {
+            height: 43px;
+
+            display: inline-flex;
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 0 15px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--green),
+                    #059669
+                );
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 9px 20px
+                rgba(16,185,129,.18);
+
+            transition: .2s;
+        }
+
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 13px 27px
+                rgba(16,185,129,.25);
+        }
+
+
+        /* =====================================================
+           TABLE CARD
+        ====================================================== */
+
+        .table-card {
+            overflow: hidden;
+
+            border-radius: 21px;
+
+            background:
+                rgba(255,255,255,.88);
+
+            border:
+                1px solid rgba(255,255,255,.95);
+
+            box-shadow: var(--shadow);
+
+            backdrop-filter: blur(18px);
+        }
+
+
+        .table-header {
+            padding: 19px 22px;
+
+            border-bottom:
+                1px solid rgba(30,27,58,.07);
+        }
+
+
+        .table-header strong {
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 14px;
+        }
+
+
+        .table-header span {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            margin-left: 7px;
+        }
+
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 780px;
+        }
+
+
+        th {
+            padding: 13px 18px;
+
+            text-align: left;
+
+            color: #77738a;
+
+            background:
+                #fafafe;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .04em;
+
+            border-bottom:
+                1px solid #eceaf2;
+        }
+
+
+        td {
+            padding: 15px 18px;
+
+            border-bottom:
+                1px solid #f0eef5;
+
+            font-size: 12px;
+        }
+
+
+        tbody tr {
+            transition: .2s;
+        }
+
+
+        tbody tr:hover {
+            background:
+                rgba(79,70,229,.025);
+        }
+
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+
+        /* =====================================================
+           STUDENT
+        ====================================================== */
+
+        .student {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .student-avatar {
+            width: 35px;
+            height: 35px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+
+            border-radius: 10px;
+
+            color: var(--primary);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(79,70,229,.12),
+                    rgba(124,58,237,.09)
+                );
+
+            font-weight: 800;
+
+            font-size: 11px;
+        }
+
+
+        .student-name {
+            font-weight: 800;
+
+            color: var(--ink);
+
+            margin-bottom: 3px;
+        }
+
+
+        .student-email {
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        .department {
+            color: #5f5a70;
+
+            font-size: 11px;
+        }
+
+
+        .date {
+            color: #625e72;
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           ATTENDANCE BADGES
+        ====================================================== */
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 6px 9px;
+
+            border-radius: 999px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+        }
+
+
+        .badge.present {
+            color: #087443;
+
+            background:
+                #eaf9f1;
+        }
+
+
+        .badge.absent {
+            color: #b42318;
+
+            background:
+                #fef2f2;
+        }
+
+
+        .badge.pending {
+            color: #9a6400;
+
+            background:
+                #fff5dc;
+        }
+
+
+        /* =====================================================
+           ATTENDANCE CONTROLS
+        ====================================================== */
+
+        .attendance-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-attendance {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-family: inherit;
+        }
+
+        .btn-attendance:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* Present button */
+        .btn-attendance.btn-present {
+            color: #087443;
+            background: #ebfaf1;
+            border-color: #c4f0d7;
+        }
+
+        .btn-attendance.btn-present:hover {
+            color: #ffffff;
+            background: #10b981;
+            border-color: #059669;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .btn-attendance.btn-present.is-active {
+            color: #ffffff;
+            background: #10b981;
+            border-color: #059669;
+            box-shadow: 0 3px 10px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Absent button */
+        .btn-attendance.btn-absent {
+            color: #b42318;
+            background: #fff0f0;
+            border-color: #ffd2d2;
+        }
+
+        .btn-attendance.btn-absent:hover {
+            color: #ffffff;
+            background: #ef4444;
+            border-color: #dc2626;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .btn-attendance.btn-absent.is-active {
+            color: #ffffff;
+            background: #ef4444;
+            border-color: #dc2626;
+            box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ====================================================== */
+
+        .empty {
+            padding: 65px 20px;
+
+            text-align: center;
+        }
+
+
+        .empty-icon {
+            width: 60px;
+            height: 60px;
+
+            margin: 0 auto 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            color: var(--primary);
+
+            background:
+                rgba(79,70,229,.08);
+
+            font-size: 22px;
+        }
+
+
+        .empty h3 {
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 16px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .empty p {
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 950px) {
+
+            .header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+
+            .event-chip {
+                width: 100%;
+            }
+
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 0 4%;
+            }
+
+
+            .user-text {
+                display: none;
+            }
+
+
+            .page {
+                width: 92%;
+
+                padding-top: 28px;
+            }
+
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+
+            .toolbar {
+                align-items: stretch;
+
+                flex-direction: column;
+            }
+
+
+            .search-box {
+                width: 100%;
+            }
+
+
+            .download-btn {
+                justify-content: center;
+
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="bg-orb orb-one"></div>
+    <div class="bg-orb orb-two"></div>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar">
+
+        <a
+            href="{{ url_for('coordinator.dashboard') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                <i class="fa-solid fa-calendar-days"></i>
+            </span>
+
+            CEMS
+
+        </a>
+
+
+        <div class="nav-right">
+
+            <div class="user-info">
+
+                <div class="avatar">
+                    {{ user.name[0]|upper }}
+                </div>
+
+                <div class="user-text">
+
+                    <strong>
+                        {{ user.name }}
+                    </strong>
+
+                    <span>
+                        College Coordinator
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('auth.logout') }}"
+                class="logout"
+                title="Logout"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =====================================================
+         PAGE
+    ====================================================== -->
+
+    <main class="page">
+
+
+        <a
+            href="{{ url_for('coordinator.manage_events') }}"
+            class="back-link"
+        >
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to Manage Events
+
+        </a>
+
+
+
+        <!-- HEADER -->
+
+        <section class="header">
+
+            <div>
+
+                <div class="eyebrow">
+
+                    <i class="fa-solid fa-users"></i>
+
+                    Registration Management
+
+                </div>
+
+
+                <h1>
+
+                    Registered
+
+                    <span class="gradient">
+                        Students
+                    </span>
+
+                </h1>
+
+
+                <p class="subtitle">
+
+                    View students who registered for this event
+                    and monitor their attendance status.
+
+                </p>
+
+            </div>
+
+
+            <div class="event-chip">
+
+                <div class="event-chip-label">
+                    Current Event
+                </div>
+
+                <div class="event-chip-title">
+                    {{ event.title }}
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FLASH MESSAGES
+        ====================================================== -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-container">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">
+                            {% if category == 'success' %}
+                                <i class="fa-solid fa-circle-check"></i>
+                            {% elif category == 'danger' %}
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                            {% elif category == 'warning' %}
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            {% else %}
+                                <i class="fa-solid fa-circle-info"></i>
+                            {% endif %}
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+
+
+        <!-- =====================================================
+             STATS
+        ====================================================== -->
+
+        <section class="stats">
+
+
+            <div class="stat total">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-users"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    {{ total_registrations }}
+                </div>
+
+                <div class="stat-label">
+                    Total Registrations
+                </div>
+
+            </div>
+
+
+
+            <div class="stat present">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-user-check"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    {{ present_count }}
+                </div>
+
+                <div class="stat-label">
+                    Present
+                </div>
+
+            </div>
+
+
+
+            <div class="stat absent">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-user-xmark"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    {{ absent_count }}
+                </div>
+
+                <div class="stat-label">
+                    Absent
+                </div>
+
+            </div>
+
+
+
+            <div class="stat pending">
+
+                <div class="stat-icon">
+
+                    <i class="fa-solid fa-user-clock"></i>
+
+                </div>
+
+                <div class="stat-number">
+                    {{ pending_count }}
+                </div>
+
+                <div class="stat-label">
+                    Pending
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================================
+             TOOLBAR
+        ====================================================== -->
+
+        <div class="toolbar">
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input
+                    type="text"
+                    id="studentSearch"
+                    placeholder="Search student, email or department..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <button
+                type="button"
+                class="download-btn"
+                onclick="downloadRegistrations()"
+            >
+
+                <i class="fa-solid fa-file-csv"></i>
+
+                Download CSV
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             TABLE
+        ====================================================== -->
+
+        <section class="table-card">
+
+
+            <div class="table-header">
+
+                <strong>
+                    Student Registrations
+                </strong>
+
+                <span>
+                    {{ total_registrations }} students
+                </span>
+
+            </div>
+
+
+            {% if registrations %}
+
+                <div class="table-wrapper">
+
+                    <table id="registrationTable">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Student
+                                </th>
+
+                                <th>
+                                    Department
+                                </th>
+
+                                <th>
+                                    Registered On
+                                </th>
+
+                                <th>
+                                    Attendance
+                                </th>
+
+                                <th class="no-export">
+                                    Mark Attendance
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for registration in registrations %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="student">
+
+                                            <div class="student-avatar">
+
+                                                {{ registration.student.name[0]|upper }}
+
+                                            </div>
+
+
+                                            <div>
+
+                                                <div class="student-name">
+
+                                                    {{ registration.student.name }}
+
+                                                </div>
+
+
+                                                <div class="student-email">
+
+                                                    {{ registration.student.email }}
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+
+                                    <td>
+
+                                        <div class="department">
+
+                                            {{ registration.student.department or "Not provided" }}
+
+                                        </div>
+
+                                    </td>
+
+
+
+                                    <td>
+
+                                        <div class="date">
+
+                                            {{ registration.registered_at.strftime("%d %b %Y, %I:%M %p") }}
+
+                                        </div>
+
+                                    </td>
+
+
+
+                                    <td>
+
+                                        {% if registration.attendance and registration.attendance.present %}
+
+                                            <span class="badge present">
+
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                                Present
+
+                                            </span>
+
+                                        {% elif registration.attendance and not registration.attendance.present %}
+
+                                            <span class="badge absent">
+
+                                                <i class="fa-solid fa-circle-xmark"></i>
+
+                                                Absent
+
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge pending">
+
+                                                <i class="fa-solid fa-clock"></i>
+
+                                                Pending
+
+                                            </span>
+
+                                        {% endif %}
+
+                                    </td>
+
+
+                                    <td class="no-export">
+
+                                        <div class="attendance-actions">
+
+                                            <form
+                                                method="POST"
+                                                action="{{ url_for('coordinator.mark_attendance', event_id=event.id, registration_id=registration.id) }}"
+                                                style="display: inline;"
+                                            >
+
+                                                <input
+                                                    type="hidden"
+                                                    name="status"
+                                                    value="present"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="btn-attendance btn-present {% if registration.attendance and registration.attendance.present %}is-active{% endif %}"
+                                                    title="Mark {{ registration.student.name }} as Present"
+                                                >
+
+                                                    <i class="fa-solid fa-circle-check"></i>
+
+                                                    Present
+
+                                                </button>
+
+                                            </form>
+
+
+                                            <form
+                                                method="POST"
+                                                action="{{ url_for('coordinator.mark_attendance', event_id=event.id, registration_id=registration.id) }}"
+                                                style="display: inline;"
+                                            >
+
+                                                <input
+                                                    type="hidden"
+                                                    name="status"
+                                                    value="absent"
+                                                >
+
+                                                <button
+                                                    type="submit"
+                                                    class="btn-attendance btn-absent {% if registration.attendance and not registration.attendance.present %}is-active{% endif %}"
+                                                    title="Mark {{ registration.student.name }} as Absent"
+                                                >
+
+                                                    <i class="fa-solid fa-circle-xmark"></i>
+
+                                                    Absent
+
+                                                </button>
+
+                                            </form>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+            {% else %}
+
+                <div class="empty">
+
+                    <div class="empty-icon">
+
+                        <i class="fa-solid fa-user-plus"></i>
+
+                    </div>
+
+
+                    <h3>
+                        No registrations yet
+                    </h3>
+
+
+                    <p>
+                        Students who register for this event will appear here.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+
+        /* =====================================================
+           SEARCH
+        ====================================================== */
+
+        const searchInput =
+            document.getElementById(
+                "studentSearch"
+            );
+
+
+        if (searchInput) {
+
+            searchInput.addEventListener(
+                "input",
+                function () {
+
+                    const search =
+                        this.value
+                            .toLowerCase()
+                            .trim();
+
+
+                    const rows =
+                        document.querySelectorAll(
+                            "#registrationTable tbody tr"
+                        );
+
+
+                    rows.forEach(
+                        function (row) {
+
+                            const text =
+                                row.textContent
+                                    .toLowerCase();
+
+
+                            row.style.display =
+                                text.includes(search)
+                                    ? ""
+                                    : "none";
+
+                        }
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           CSV DOWNLOAD
+        ====================================================== */
+
+        function downloadRegistrations() {
+
+            const table =
+                document.getElementById(
+                    "registrationTable"
+                );
+
+
+            if (!table) {
+
+                alert(
+                    "There are no registrations to download."
+                );
+
+                return;
+
+            }
+
+
+            const rows =
+                table.querySelectorAll(
+                    "tr"
+                );
+
+
+            const csv = [];
+
+
+            rows.forEach(
+                function (row) {
+
+                    const cells =
+                        row.querySelectorAll(
+                            "th:not(.no-export), td:not(.no-export)"
+                        );
+
+
+                    const rowData = [];
+
+
+                    cells.forEach(
+                        function (cell) {
+
+                            let value =
+                                cell.innerText
+                                    .replace(
+                                        /\s+/g,
+                                        " "
+                                    )
+                                    .trim();
+
+
+                            value =
+                                value.replace(
+                                    /"/g,
+                                    '""'
+                                );
+
+
+                            rowData.push(
+                                `"${value}"`
+                            );
+
+                        }
+                    );
+
+
+                    csv.push(
+                        rowData.join(",")
+                    );
+
+                }
+            );
+
+
+            const blob =
+                new Blob(
+                    [
+                        "\uFEFF" +
+                        csv.join("\n")
+                    ],
+                    {
+                        type:
+                            "text/csv;charset=utf-8;"
+                    }
+                );
+
+
+            const url =
+                URL.createObjectURL(
+                    blob
+                );
+
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.href = url;
+
+
+            link.download =
+                "{{ event.title|replace(' ', '_') }}_registrations.csv";
+
+
+            document.body.appendChild(
+                link
+            );
+
+
+            link.click();
+
+
+            document.body.removeChild(
+                link
+            );
+
+
+            URL.revokeObjectURL(
+                url
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | CEMS</title>
+
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+
+    <style>
+
+        /* ========================================
+           RESET
+        ======================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* ========================================
+           BODY
+        ======================================== */
+
+        body {
+            font-family: Arial, sans-serif;
+
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(255,255,255,0.14),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(255,255,255,0.10),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #4F46E5,
+                    #7C3AED,
+                    #EC4899
+                );
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 30px;
+        }
+
+
+        /* ========================================
+           MAIN LOGIN CONTAINER
+        ======================================== */
+
+        .login-wrapper {
+
+            width: 100%;
+
+            max-width: 1080px;
+
+            min-height: 650px;
+
+            background: #ffffff;
+
+            border-radius: 28px;
+
+            overflow: hidden;
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.22);
+
+        }
+
+
+        /* ========================================
+           LEFT SECTION
+        ======================================== */
+
+        .login-info {
+
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #4338CA 0%,
+                    #4F46E5 45%,
+                    #7C3AED 100%
+                );
+
+            color: white;
+
+            padding: 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+        }
+
+
+        /* Decorative circles */
+
+        .login-info::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+
+            height: 300px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.06);
+
+            top: -120px;
+
+            right: -100px;
+
+        }
+
+
+        .login-info::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+
+            height: 220px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.05);
+
+            bottom: -100px;
+
+            left: -90px;
+
+        }
+
+
+        /* ========================================
+           PROFESSIONAL LOGO
+        ======================================== */
+
+        .logo {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 42px;
+
+        }
+
+
+        .logo-mark {
+
+            width: 54px;
+
+            height: 54px;
+
+            flex-shrink: 0;
+
+            border-radius: 16px;
+
+            background: rgba(255,255,255,0.14);
+
+            border: 1px solid rgba(255,255,255,0.28);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            box-shadow:
+                0 10px 25px rgba(0,0,0,0.12);
+
+            backdrop-filter: blur(8px);
+
+        }
+
+
+        .logo-mark svg {
+
+            width: 32px;
+
+            height: 32px;
+
+        }
+
+
+        .logo-text {
+
+            display: flex;
+
+            flex-direction: column;
+
+            line-height: 1;
+
+        }
+
+
+        .logo-name {
+
+            font-size: 28px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            color: #ffffff;
+
+        }
+
+
+        .logo-tagline {
+
+            margin-top: 7px;
+
+            font-size: 8px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.6px;
+
+            color: #C7D2FE;
+
+        }
+
+
+        /* ========================================
+           LEFT CONTENT
+        ======================================== */
+
+        .login-info-content {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .login-info h1 {
+
+            font-size: 44px;
+
+            line-height: 1.12;
+
+            margin-bottom: 20px;
+
+            letter-spacing: -1px;
+
+        }
+
+
+        .login-info p {
+
+            font-size: 16px;
+
+            line-height: 1.7;
+
+            color: #E0E7FF;
+
+            max-width: 440px;
+
+        }
+
+
+        /* ========================================
+           FEATURES
+        ======================================== */
+
+        .features {
+
+            margin-top: 38px;
+
+        }
+
+
+        .feature {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 18px;
+
+            font-size: 15px;
+
+            color: #F8FAFC;
+
+        }
+
+
+      .feature-icon {
+    width: 35px;
+    height: 35px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.13);
+
+    border: 1px solid rgba(255,255,255,0.18);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+
+    font-size: 14px;
+}
+
+        /* ========================================
+           RIGHT SECTION
+        ======================================== */
+
+        .login-form-section {
+
+            padding: 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            background: #ffffff;
+
+        }
+
+
+        .login-form-section h2 {
+
+            font-size: 31px;
+
+            color: #1E1B3A;
+
+            margin-bottom: 8px;
+
+            letter-spacing: -0.5px;
+
+        }
+
+
+        .subtitle {
+
+            color: #6B7280;
+
+            font-size: 15px;
+
+            margin-bottom: 27px;
+
+            line-height: 1.5;
+
+        }
+
+
+        /* ========================================
+           FLASH MESSAGES
+        ======================================== */
+
+        .flash {
+
+            padding: 12px 14px;
+
+            border-radius: 10px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+
+            border: 1px solid transparent;
+
+        }
+
+
+        .flash-success {
+
+            background: #ECFDF5;
+
+            color: #047857;
+
+            border-color: #A7F3D0;
+
+        }
+
+
+        .flash-danger {
+
+            background: #FEF2F2;
+
+            color: #B91C1C;
+
+            border-color: #FECACA;
+
+        }
+
+
+        /* ========================================
+           ROLE SELECTOR
+        ======================================== */
+
+        .role-selector {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 12px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .role-option {
+
+            position: relative;
+
+        }
+
+
+        .role-option input {
+
+            display: none;
+
+        }
+
+
+        .role-option label {
+
+            min-height: 72px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            padding: 15px;
+
+            text-align: center;
+
+            border: 1.5px solid #E5E7EB;
+
+            border-radius: 13px;
+
+            cursor: pointer;
+
+            font-weight: 700;
+
+            color: #4B5563;
+
+            background: #ffffff;
+
+            transition: all 0.2s ease;
+
+        }
+
+
+        .role-option label:hover {
+
+            border-color: #A5B4FC;
+
+            background: #F8FAFC;
+
+        }
+
+
+        .role-option input:checked + label {
+
+            border-color: #4F46E5;
+
+            background: #EEF2FF;
+
+            color: #4F46E5;
+
+            box-shadow:
+                0 5px 18px rgba(79,70,229,0.10);
+
+        }
+
+
+        .role-icon {
+    width: 22px;
+    height: 22px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #4F46E5;
+
+    font-size: 20px;
+}
+        /* ========================================
+           FORM GROUP
+        ======================================== */
+
+        .form-group {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            color: #374151;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border: 1px solid #D1D5DB;
+
+            border-radius: 10px;
+
+            font-size: 15px;
+
+            color: #1F2937;
+
+            background: #ffffff;
+
+            outline: none;
+
+            transition: all 0.2s ease;
+
+        }
+
+
+        .form-group input::placeholder {
+
+            color: #9CA3AF;
+
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #4F46E5;
+
+            box-shadow:
+                0 0 0 3px rgba(79,70,229,0.10);
+
+        }
+
+
+        /* ========================================
+           LOGIN BUTTON
+        ======================================== */
+
+        .login-btn {
+
+            width: 100%;
+
+            border: none;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4F46E5,
+                    #7C3AED
+                );
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            margin-top: 4px;
+
+            transition: all 0.2s ease;
+
+            box-shadow:
+                0 8px 20px rgba(79,70,229,0.20);
+
+        }
+
+
+        .login-btn:hover {
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 28px rgba(79,70,229,0.28);
+
+        }
+
+
+        .login-btn:active {
+
+            transform: translateY(0);
+
+        }
+
+
+        /* ========================================
+           REGISTER LINK
+        ======================================== */
+
+        .register-link {
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            font-size: 14px;
+
+            color: #6B7280;
+
+        }
+
+
+        .register-link a {
+
+            color: #4F46E5;
+
+            font-weight: 700;
+
+            text-decoration: none;
+
+        }
+
+
+        .register-link a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* ========================================
+           BACK HOME
+        ======================================== */
+
+        .back-home {
+
+            text-align: center;
+
+            margin-top: 15px;
+
+        }
+
+
+        .back-home a {
+
+            color: #6B7280;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .back-home a:hover {
+
+            color: #4F46E5;
+
+        }
+
+
+        /* ========================================
+           SECURITY NOTE
+        ======================================== */
+
+        .security-note {
+
+            margin-top: 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            font-size: 12px;
+
+            color: #9CA3AF;
+
+        }
+
+
+      .security-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #9CA3AF;
+
+    font-size: 13px;
+}
+
+
+        /* ========================================
+           RESPONSIVE
+        ======================================== */
+
+        @media (max-width: 850px) {
+
+            body {
+
+                padding: 20px;
+
+            }
+
+
+            .login-wrapper {
+
+                grid-template-columns: 1fr;
+
+                max-width: 600px;
+
+            }
+
+
+            .login-info {
+
+                padding: 40px;
+
+                min-height: auto;
+
+            }
+
+
+            .login-info h1 {
+
+                font-size: 36px;
+
+            }
+
+
+            .features {
+
+                margin-top: 25px;
+
+            }
+
+
+            .login-form-section {
+
+                padding: 40px;
+
+            }
+
+        }
+
+
+        @media (max-width: 520px) {
+
+            body {
+
+                padding: 12px;
+
+            }
+
+
+            .login-wrapper {
+
+                border-radius: 20px;
+
+            }
+
+
+            .login-info {
+
+                padding: 30px 25px;
+
+            }
+
+
+            .login-info h1 {
+
+                font-size: 30px;
+
+            }
+
+
+            .login-info p {
+
+                font-size: 14px;
+
+            }
+
+
+            .features {
+
+                display: none;
+
+            }
+
+
+            .logo {
+
+                margin-bottom: 28px;
+
+            }
+
+
+            .login-form-section {
+
+                padding: 30px 25px;
+
+            }
+
+
+            .login-form-section h2 {
+
+                font-size: 27px;
+
+            }
+
+
+            .role-selector {
+
+                gap: 8px;
+
+            }
+
+
+            .role-option label {
+
+                min-height: 65px;
+
+                padding: 10px;
+
+                font-size: 14px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="login-wrapper">
+
+
+    <!-- =====================================
+         LEFT SIDE
+    ====================================== -->
+
+    <div class="login-info">
+
+
+        <!-- PROFESSIONAL CEMS LOGO -->
+
+        <div class="logo">
+
+
+            <div class="logo-mark">
+
+
+                <svg
+                    viewBox="0 0 64 64"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                >
+
+                    <!-- Calendar Body -->
+
+                    <rect
+                        x="10"
+                        y="14"
+                        width="44"
+                        height="40"
+                        rx="9"
+                        stroke="white"
+                        stroke-width="4"
+                    />
+
+
+                    <!-- Calendar Header -->
+
+                    <path
+                        d="M10 26H54"
+                        stroke="white"
+                        stroke-width="4"
+                    />
+
+
+                    <!-- Calendar Rings -->
+
+                    <path
+                        d="M21 10V19"
+                        stroke="white"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                    />
+
+
+                    <path
+                        d="M43 10V19"
+                        stroke="white"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                    />
+
+
+                    <!-- Event Star -->
+
+                    <path
+                        d="
+                            M32 31
+                            L34.8 37.1
+                            L41.5 37.8
+                            L36.5 42.3
+                            L37.9 48.8
+                            L32 45.4
+                            L26.1 48.8
+                            L27.5 42.3
+                            L22.5 37.8
+                            L29.2 37.1
+                            Z
+                        "
+                        fill="white"
+                    />
+
+                </svg>
+
+
+            </div>
+
+
+            <div class="logo-text">
+
+                <div class="logo-name">
+                    CEMS
+                </div>
+
+                <div class="logo-tagline">
+                    COLLEGE EVENT MANAGEMENT
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- LEFT CONTENT -->
+
+        <div class="login-info-content">
+
+
+            <h1>
+                Welcome Back!
+            </h1>
+
+
+            <p>
+
+                Login to College Event Management System
+                and manage your college events,
+                registrations and participation.
+
+            </p>
+
+
+            <!-- FEATURES -->
+
+            <div class="features">
+
+
+                <div class="feature">
+
+                   <div class="feature-icon">
+    <i class="fa-solid fa-check"></i>
+</div>
+
+                    <span>
+                        Discover college events
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+    <i class="fa-solid fa-check"></i>
+                    </div>
+
+                    <span>
+                        Register for events easily
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+    <i class="fa-solid fa-check"></i>
+                    </div>
+
+                    <span>
+                        Track your participation
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================
+         RIGHT SIDE
+    ====================================== -->
+
+    <div class="login-form-section">
+
+
+        <h2>
+            Login
+        </h2>
+
+
+        <p class="subtitle">
+
+            Select your account type to continue.
+
+        </p>
+
+
+        <!-- =================================
+             FLASH MESSAGES
+        ================================== -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="flash flash-{{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <!-- =================================
+             ROLE SELECTOR
+        ================================== -->
+
+        <div class="role-selector">
+
+
+            <!-- STUDENT -->
+
+            <div class="role-option">
+
+
+                <input
+                    type="radio"
+                    id="student"
+                    name="login_role"
+                    value="student"
+                    checked
+                >
+
+
+                <label for="student">
+
+                   <span class="role-icon">
+    <i class="fa-solid fa-user-graduate"></i>
+</span>
+
+                    <span>
+                        Student
+                    </span>
+
+                </label>
+
+
+            </div>
+
+
+            <!-- COLLEGE -->
+
+            <div class="role-option">
+
+
+                <input
+                    type="radio"
+                    id="college"
+                    name="login_role"
+                    value="college"
+                >
+
+
+                <label for="college">
+
+                    <span class="role-icon">
+    <i class="fa-solid fa-building-columns"></i>
+</span>
+
+                    <span>
+                        College
+                    </span>
+
+                </label>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================
+             LOGIN FORM
+        ================================== -->
+
+        <form method="POST">
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+
+                <label for="email">
+                    Email Address
+                </label>
+
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                >
+
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+
+                <label for="password">
+                    Password
+                </label>
+
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+
+            </div>
+
+
+            <!-- LOGIN BUTTON -->
+
+            <button
+                type="submit"
+                class="login-btn"
+            >
+
+                Login
+
+            </button>
+
+
+        </form>
+
+
+        <!-- =================================
+             REGISTER
+        ================================== -->
+
+        <div class="register-link">
+
+            Don't have a student account?
+
+            <a href="{{ url_for('auth.register') }}">
+                Create Account
+            </a>
+
+        </div>
+
+
+        <!-- =================================
+             BACK HOME
+        ================================== -->
+
+        <div class="back-home">
+
+            <a href="{{ url_for('home') }}">
+
+                ← Back to Home
+
+            </a>
+
+        </div>
+
+
+        <!-- SECURITY -->
+
+        <div class="security-note">
+
+            <span class="security-icon">
+    <i class="fa-solid fa-shield-halved"></i>
+</span>
+
+            <span>
+                Secure login
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

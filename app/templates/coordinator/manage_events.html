@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Manage Events | CEMS</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f7f7fb;
+            color: #1e1b3a;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            height: 72px;
+            background: #ffffff;
+            border-bottom: 1px solid #e9e7f2;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 6%;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #ec4899
+            );
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            background: #4f46e5;
+
+            font-weight: 700;
+        }
+
+        .user-text strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .user-text span {
+            font-size: 12px;
+            color: #77738a;
+        }
+
+        .logout {
+            padding: 9px 14px;
+
+            border-radius: 9px;
+
+            color: #55516b;
+            background: #f3f2f8;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            transition: 0.2s ease;
+        }
+
+        .logout:hover {
+            background: #ebe9f2;
+            color: #1e1b3a;
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: min(1250px, 92%);
+
+            margin: 0 auto;
+
+            padding: 40px 0 70px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .top-row {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+        }
+
+        .back-link {
+            display: inline-flex;
+
+            align-items: center;
+            gap: 8px;
+
+            color: #6b677d;
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 14px;
+
+            transition: 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #4f46e5;
+        }
+
+        .page-header h1 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 30px;
+
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+            color: #77738a;
+
+            font-size: 14px;
+        }
+
+        .create-btn {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            padding: 12px 17px;
+
+            border-radius: 10px;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #7c3aed
+            );
+
+            font-size: 13px;
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 20px
+                rgba(79, 70, 229, 0.20);
+
+            transition: 0.2s ease;
+        }
+
+        .create-btn:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(79, 70, 229, 0.25);
+        }
+
+        /* =========================
+           FILTERS
+        ========================= */
+
+        .filters {
+            background: white;
+
+            border: 1px solid #eceaf3;
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            margin-bottom: 20px;
+
+            display: grid;
+
+            grid-template-columns:
+                2fr 1fr 1fr auto;
+
+            gap: 12px;
+        }
+
+        .filter-field {
+            position: relative;
+        }
+
+        .filter-field i {
+            position: absolute;
+
+            left: 13px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #9996a8;
+
+            font-size: 13px;
+
+            pointer-events: none;
+        }
+
+        .filters input,
+        .filters select {
+            width: 100%;
+
+            height: 43px;
+
+            border: 1px solid #dedce8;
+
+            border-radius: 9px;
+
+            padding: 0 13px;
+
+            color: #1e1b3a;
+
+            background: white;
+
+            outline: none;
+
+            font-size: 13px;
+        }
+
+        .filters input.search-input {
+            padding-left: 37px;
+        }
+
+        .filters input:focus,
+        .filters select:focus {
+            border-color: #4f46e5;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(79, 70, 229, 0.08);
+        }
+
+        .filter-btn {
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 0 17px;
+
+            height: 43px;
+
+            background: #1e1b3a;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            background: #302b50;
+        }
+
+        .clear-btn {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            height: 43px;
+
+            padding: 0 15px;
+
+            border-radius: 9px;
+
+            background: #f1f0f5;
+
+            color: #5d596d;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+        .clear-btn:hover {
+            background: #e7e5ed;
+        }
+
+        /* =========================
+           FLASH
+        ========================= */
+
+        .flash-container {
+            margin-bottom: 18px;
+        }
+
+        .flash {
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .flash.success {
+            color: #087443;
+
+            background: #ebfaf3;
+
+            border: 1px solid #c9f0dc;
+        }
+
+        .flash.danger {
+            color: #b42318;
+
+            background: #fff0f0;
+
+            border: 1px solid #ffd6d6;
+        }
+
+        .flash.warning {
+            color: #946200;
+
+            background: #fff7df;
+
+            border: 1px solid #f5df9f;
+        }
+
+        .flash.info {
+            color: #155eef;
+
+            background: #eff6ff;
+
+            border: 1px solid #d7e8ff;
+        }
+
+        /* =========================
+           TABLE CARD
+        ========================= */
+
+        .table-card {
+            background: white;
+
+            border: 1px solid #eceaf3;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 25px
+                rgba(30, 27, 58, 0.04);
+        }
+
+        .table-header {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 20px 23px;
+
+            border-bottom: 1px solid #eceaf3;
+        }
+
+        .table-header h2 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 17px;
+        }
+
+        .event-count {
+            color: #77738a;
+
+            font-size: 12px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 950px;
+        }
+
+        th {
+            padding: 14px 18px;
+
+            text-align: left;
+
+            background: #faf9fd;
+
+            color: #77738a;
+
+            font-size: 11px;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.4px;
+        }
+
+        td {
+            padding: 16px 18px;
+
+            border-top: 1px solid #f0eef5;
+
+            font-size: 13px;
+
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background: #fcfbff;
+        }
+
+        /* =========================
+           EVENT
+        ========================= */
+
+        .event-title {
+            font-weight: 700;
+
+            margin-bottom: 4px;
+        }
+
+        .event-description {
+            color: #9996a8;
+
+            font-size: 11px;
+
+            max-width: 260px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+        }
+
+        /* =========================
+           CATEGORY
+        ========================= */
+
+        .category {
+            display: inline-flex;
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            background: #eef0ff;
+
+            color: #4f46e5;
+
+            font-size: 10px;
+
+            font-weight: 700;
+        }
+
+        /* =========================
+           DATE / TIME / VENUE
+        ========================= */
+
+        .date {
+            font-weight: 600;
+
+            margin-bottom: 4px;
+        }
+
+        .time,
+        .venue {
+            color: #6b677d;
+        }
+
+        /* =========================
+           REGISTRATIONS
+        ========================= */
+
+        .registrations {
+            font-weight: 700;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 6px 9px;
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: capitalize;
+        }
+
+        .status.published {
+            color: #087443;
+
+            background: #e7f8ef;
+        }
+
+        .status.draft {
+            color: #946200;
+
+            background: #fff4d6;
+        }
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 7px;
+        }
+
+        .action-btn {
+            width: 34px;
+            height: 34px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border: none;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            transition: 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .edit-btn {
+            background: #eef0ff;
+
+            color: #4f46e5;
+        }
+
+        .edit-btn:hover {
+            background: #e0e4ff;
+        }
+
+        .status-btn {
+            background: #eafaf4;
+
+            color: #087443;
+        }
+
+        .status-btn.draft-action {
+            background: #fff4d6;
+
+            color: #946200;
+        }
+
+        .delete-btn {
+            background: #fff0f0;
+
+            color: #d92d20;
+        }
+
+        .delete-btn:hover {
+            background: #ffe0e0;
+        }
+
+
+        .registration-btn {
+    background: #fff4e5;
+    color: #f59e0b;
+}
+
+.registration-btn:hover {
+    background: #ffead0;
+}
+
+        .action-form {
+            display: inline;
+            margin: 0;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty {
+            padding: 70px 20px;
+
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 15px;
+
+            border-radius: 16px;
+
+            color: #9996a8;
+
+            background: #f2f1f6;
+
+            font-size: 23px;
+        }
+
+        .empty h3 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 17px;
+
+            margin-bottom: 7px;
+        }
+
+        .empty p {
+            color: #77738a;
+
+            font-size: 13px;
+
+            margin-bottom: 20px;
+        }
+
+        .empty .create-btn {
+            display: inline-flex;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .filters {
+                grid-template-columns:
+                    1.5fr 1fr 1fr;
+            }
+
+            .filter-btn {
+                grid-column: span 1;
+            }
+
+        }
+
+        @media (max-width: 900px) {
+
+            .filters {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+
+            .clear-btn {
+                width: 100%;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 0 4%;
+            }
+
+            .user-text {
+                display: none;
+            }
+
+            .nav-right {
+                gap: 10px;
+            }
+
+            .container {
+                width: 92%;
+
+                padding-top: 28px;
+            }
+
+            .top-row {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .create-btn {
+                width: 100%;
+
+                justify-content: center;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .table-header {
+                padding: 17px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<nav class="navbar">
+
+    <a
+        href="{{ url_for('coordinator.dashboard') }}"
+        class="brand"
+    >
+
+        <span class="brand-icon">
+            <i class="fa-solid fa-calendar-days"></i>
+        </span>
+
+        CEMS
+
+    </a>
+
+
+    <div class="nav-right">
+
+        <div class="user-info">
+
+            <div class="avatar">
+                {{ user.name[0]|upper }}
+            </div>
+
+            <div class="user-text">
+
+                <strong>
+                    {{ user.name }}
+                </strong>
+
+                <span>
+                    College Coordinator
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('auth.logout') }}"
+            class="logout"
+            title="Logout"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="container">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="top-row">
+
+        <div class="page-header">
+
+            <a
+                href="{{ url_for('coordinator.dashboard') }}"
+                class="back-link"
+            >
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Back to Dashboard
+
+            </a>
+
+
+            <h1>
+                Manage Events
+            </h1>
+
+            <p>
+                View, edit and manage all your college events.
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('coordinator.create_event') }}"
+            class="create-btn"
+        >
+
+            <i class="fa-solid fa-plus"></i>
+
+            Create Event
+
+        </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         FLASH MESSAGES
+    ================================================== -->
+
+    {% with messages = get_flashed_messages(
+        with_categories=true
+    ) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <!-- =================================================
+         FILTERS
+    ================================================== -->
+
+    <form
+        method="GET"
+        action="{{ url_for('coordinator.manage_events') }}"
+        class="filters"
+    >
+
+        <!-- SEARCH -->
+
+        <div class="filter-field">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                name="search"
+                class="search-input"
+                value="{{ search }}"
+                placeholder="Search event by title..."
+            >
+
+        </div>
+
+
+        <!-- CATEGORY -->
+
+        <select name="category">
+
+            <option value="">
+                All Categories
+            </option>
+
+            {% for item in categories %}
+
+                <option
+                    value="{{ item }}"
+                    {% if selected_category == item %}
+                        selected
+                    {% endif %}
+                >
+
+                    {{ item }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+
+        <!-- STATUS -->
+
+        <select name="status">
+
+            <option value="">
+                All Status
+            </option>
+
+            <option
+                value="published"
+                {% if selected_status == "published" %}
+                    selected
+                {% endif %}
+            >
+
+                Published
+
+            </option>
+
+            <option
+                value="draft"
+                {% if selected_status == "draft" %}
+                    selected
+                {% endif %}
+            >
+
+                Draft
+
+            </option>
+
+        </select>
+
+
+        <!-- FILTER BUTTON -->
+
+        <button
+            type="submit"
+            class="filter-btn"
+        >
+
+            <i class="fa-solid fa-filter"></i>
+
+            Filter
+
+        </button>
+
+
+        <!-- CLEAR -->
+
+        {% if search or selected_category or selected_status %}
+
+            <a
+                href="{{ url_for('coordinator.manage_events') }}"
+                class="clear-btn"
+            >
+
+                Clear Filters
+
+            </a>
+
+        {% endif %}
+
+    </form>
+
+
+
+    <!-- =================================================
+         EVENTS TABLE
+    ================================================== -->
+
+    <section class="table-card">
+
+
+        <div class="table-header">
+
+            <h2>
+                Your Events
+            </h2>
+
+            <span class="event-count">
+
+                {{ events|length }}
+
+                event{% if events|length != 1 %}s{% endif %}
+
+            </span>
+
+        </div>
+
+
+
+        {% if events %}
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Event
+                            </th>
+
+                            <th>
+                                Category
+                            </th>
+
+                            <th>
+                                Date & Time
+                            </th>
+
+                            <th>
+                                Venue
+                            </th>
+
+                            <th>
+                                Registrations
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+
+                        {% for event in events %}
+
+
+                            <tr>
+
+
+                                <!-- EVENT -->
+
+                                <td>
+
+                                    <div class="event-title">
+
+                                        {{ event.title }}
+
+                                    </div>
+
+
+                                    {% if event.description %}
+
+                                        <div class="event-description">
+
+                                            {{ event.description }}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                </td>
+
+
+
+                                <!-- CATEGORY -->
+
+                                <td>
+
+                                    <span class="category">
+
+                                        {{ event.category }}
+
+                                    </span>
+
+                                </td>
+
+
+
+                                <!-- DATE / TIME -->
+
+                                <td>
+
+                                    <div class="date">
+
+                                        {{ event.event_date.strftime('%d %b %Y') }}
+
+                                    </div>
+
+
+                                    <div class="time">
+
+                                        {{ event.start_time.strftime('%I:%M %p') }}
+
+                                        -
+
+                                        {{ event.end_time.strftime('%I:%M %p') }}
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- VENUE -->
+
+                                <td>
+
+                                    <div class="venue">
+
+                                        {{ event.venue }}
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- REGISTRATIONS -->
+
+                                <td>
+
+                                    <div class="registrations">
+
+                                        {{ event.registrations
+                                           |selectattr(
+                                               "status",
+                                               "equalto",
+                                               "registered"
+                                           )
+                                           |list
+                                           |length
+                                        }}
+
+                                        /
+
+                                        {{ event.capacity }}
+
+                                    </div>
+
+                                </td>
+
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    <span
+                                        class="status {{ event.status }}"
+                                    >
+
+                                        {% if event.status == "published" %}
+
+                                            <i class="fa-solid fa-circle-check"></i>
+
+                                        {% else %}
+
+                                            <i class="fa-solid fa-file"></i>
+
+                                        {% endif %}
+
+                                        {{ event.status }}
+
+                                    </span>
+
+                                </td>
+
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <div class="actions">
+
+
+                                        <!-- EDIT -->
+
+                                        <a
+                                            href="{{ url_for(
+                                                'coordinator.edit_event',
+                                                event_id=event.id
+                                            ) }}"
+                                            class="action-btn edit-btn"
+                                            title="Edit Event"
+                                        >
+
+                                            <i class="fa-solid fa-pen"></i>
+
+                                        </a>
+
+
+                                        <!-- VIEW REGISTRATIONS -->
+                                    <a
+                                        href="{{ url_for('coordinator.event_registrations', event_id=event.id) }}"
+                                         class="action-btn registration-btn"
+                                         title="View Registrations"
+                                    >
+                                     <i class="fa-solid fa-users"></i>
+                                    </a>
+
+
+
+                                        <!-- PUBLISH / DRAFT -->
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for(
+                                                'coordinator.toggle_event_status',
+                                                event_id=event.id
+                                            ) }}"
+                                            class="action-form"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="action-btn status-btn
+                                                {% if event.status == 'published' %}
+                                                    draft-action
+                                                {% endif %}"
+                                                title="{% if event.status == 'published' %}Move to Draft{% else %}Publish Event{% endif %}"
+                                            >
+
+                                                {% if event.status == "published" %}
+
+                                                    <i class="fa-solid fa-eye-slash"></i>
+
+                                                {% else %}
+
+                                                    <i class="fa-solid fa-eye"></i>
+
+                                                {% endif %}
+
+                                            </button>
+
+                                        </form>
+
+
+
+                                        <!-- DELETE -->
+
+                                        <form
+                                            method="POST"
+                                            action="{{ url_for(
+                                                'coordinator.delete_event',
+                                                event_id=event.id
+                                            ) }}"
+                                            class="action-form"
+                                            data-event-title="{{ event.title }}"
+                                            onsubmit="return confirmDelete(this);"
+                                        >
+
+                                            <button
+                                                type="submit"
+                                                class="action-btn delete-btn"
+                                                title="Delete Event"
+                                            >
+
+                                                <i class="fa-solid fa-trash"></i>
+
+                                            </button>
+
+                                        </form>
+
+
+                                    </div>
+
+                                </td>
+
+
+                            </tr>
+
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+        {% else %}
+
+
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================== -->
+
+            <div class="empty">
+
+                <div class="empty-icon">
+
+                    <i class="fa-regular fa-calendar-xmark"></i>
+
+                </div>
+
+
+                <h3>
+                    No events found
+                </h3>
+
+
+                <p>
+
+                    {% if search or selected_category or selected_status %}
+
+                        Try changing your search or filters.
+
+                    {% else %}
+
+                        You haven't created any events yet.
+
+                    {% endif %}
+
+                </p>
+
+
+                {% if not search and not selected_category and not selected_status %}
+
+                    <a
+                        href="{{ url_for('coordinator.create_event') }}"
+                        class="create-btn"
+                    >
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Create Your First Event
+
+                    </a>
+
+                {% endif %}
+
+
+            </div>
+
+
+        {% endif %}
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+    function confirmDelete(form) {
+
+        const eventTitle =
+            form.getAttribute("data-event-title") || "this event";
+
+        return window.confirm(
+            "Are you sure you want to delete this event?\n\n" +
+            eventTitle +
+            "\n\nThis action cannot be undone."
+        );
+
+    }
+
+
+    /*
+     * Automatically hide flash messages
+     * after 4 seconds.
+     */
+
+    setTimeout(function () {
+
+        const flashMessages =
+            document.querySelectorAll(".flash");
+
+        flashMessages.forEach(function (message) {
+
+            message.style.transition =
+                "opacity 0.4s ease";
+
+            message.style.opacity = "0";
+
+            setTimeout(function () {
+
+                message.remove();
+
+            }, 400);
+
+        });
+
+    }, 4000);
+
+
+</script>
+
+
+</body>
+
+</html>

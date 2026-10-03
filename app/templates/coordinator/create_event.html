@@ -1,0 +1,3226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Event | CEMS</title>
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =========================================================
+           ROOT
+        ========================================================= */
+
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #7c3aed;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --green: #10b981;
+            --amber: #f59e0b;
+            --red: #ef4444;
+
+            --ink: #1e1b3a;
+            --muted: #77738a;
+            --light-muted: #9a96aa;
+
+            --bg: #f5f5fb;
+            --card: rgba(255, 255, 255, 0.88);
+            --border: rgba(255, 255, 255, 0.75);
+
+            --shadow-sm:
+                0 8px 24px rgba(30, 27, 58, 0.06);
+
+            --shadow-md:
+                0 18px 45px rgba(30, 27, 58, 0.10);
+
+            --shadow-lg:
+                0 30px 80px rgba(30, 27, 58, 0.14);
+
+            --radius: 20px;
+        }
+
+
+        /* =========================================================
+           RESET
+        ========================================================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            font-family: "Inter", sans-serif;
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(79, 70, 229, 0.10),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 90% 15%,
+                    rgba(236, 72, 153, 0.09),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(6, 182, 212, 0.08),
+                    transparent 30%
+                ),
+                var(--bg);
+
+            color: var(--ink);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        /* =========================================================
+           BACKGROUND 3D SHAPES
+        ========================================================= */
+
+        .background-scene {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.65;
+            animation: floatOrb 12s ease-in-out infinite;
+        }
+
+
+        .orb-one {
+            width: 280px;
+            height: 280px;
+
+            top: 90px;
+            left: -110px;
+
+            background:
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(124, 58, 237, 0.22),
+                    rgba(79, 70, 229, 0.03) 70%
+                );
+        }
+
+
+        .orb-two {
+            width: 360px;
+            height: 360px;
+
+            right: -170px;
+            top: 280px;
+
+            background:
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(236, 72, 153, 0.18),
+                    rgba(236, 72, 153, 0.02) 70%
+                );
+
+            animation-delay: -4s;
+        }
+
+
+        .orb-three {
+            width: 230px;
+            height: 230px;
+
+            left: 42%;
+            bottom: -120px;
+
+            background:
+                radial-gradient(
+                    circle at 30% 30%,
+                    rgba(6, 182, 212, 0.17),
+                    rgba(6, 182, 212, 0.02) 70%
+                );
+
+            animation-delay: -7s;
+        }
+
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(20px, -25px, 0) scale(1.04);
+            }
+        }
+
+
+        /* =========================================================
+           NAVBAR
+        ========================================================= */
+
+        .navbar {
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+
+            height: 74px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 5.5%;
+
+            background: rgba(255, 255, 255, 0.78);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            border-bottom:
+                1px solid rgba(30, 27, 58, 0.07);
+
+            box-shadow:
+                0 8px 30px rgba(30, 27, 58, 0.04);
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--pink)
+                );
+
+            box-shadow:
+                0 9px 22px rgba(79, 70, 229, 0.28);
+
+            transform: perspective(500px) rotateX(3deg);
+        }
+
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .avatar {
+            width: 41px;
+            height: 41px;
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            font-weight: 800;
+
+            box-shadow:
+                0 7px 18px rgba(79, 70, 229, 0.22);
+        }
+
+
+        .user-text strong {
+            display: block;
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+
+        .user-text span {
+            display: block;
+
+            margin-top: 2px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+
+        .logout {
+            width: 39px;
+            height: 39px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            color: #625e73;
+            background: rgba(30, 27, 58, 0.055);
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .logout:hover {
+            transform: translateY(-2px);
+
+            background: rgba(239, 68, 68, 0.10);
+            color: var(--red);
+        }
+
+
+        /* =========================================================
+           PAGE
+        ========================================================= */
+
+        .page {
+            width: min(1240px, 92%);
+
+            margin: 0 auto;
+
+            padding: 40px 0 80px;
+        }
+
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+
+            color: #68647a;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            margin-bottom: 25px;
+
+            transition:
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .back-link:hover {
+            color: var(--primary);
+            transform: translateX(-3px);
+        }
+
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .page-header {
+            position: relative;
+
+            margin-bottom: 30px;
+        }
+
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 7px 11px;
+
+            border-radius: 999px;
+
+            color: var(--primary);
+
+            background:
+                rgba(79, 70, 229, 0.08);
+
+            border:
+                1px solid rgba(79, 70, 229, 0.10);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+
+            margin-bottom: 13px;
+        }
+
+
+        .eyebrow i {
+            font-size: 10px;
+        }
+
+
+        .header-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                300px;
+
+            gap: 25px;
+
+            align-items: end;
+        }
+
+
+        .page-header h1 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: clamp(30px, 4vw, 46px);
+
+            line-height: 1.08;
+
+            font-weight: 800;
+
+            letter-spacing: -0.04em;
+
+            margin-bottom: 11px;
+        }
+
+
+        .gradient-text {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary),
+                    var(--pink)
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+
+        .page-header p {
+            max-width: 650px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+
+        /* =========================================================
+           HEADER PREVIEW
+        ========================================================= */
+
+        .mini-preview {
+            position: relative;
+
+            min-height: 150px;
+
+            padding: 19px;
+
+            border-radius: 19px;
+
+            color: white;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #4f46e5,
+                    #7c3aed 50%,
+                    #ec4899
+                );
+
+            box-shadow:
+                0 20px 45px rgba(79, 70, 229, 0.23);
+
+            transform:
+                perspective(900px)
+                rotateX(3deg)
+                rotateY(-3deg);
+
+            transition:
+                transform 0.4s ease;
+        }
+
+
+        .mini-preview:hover {
+            transform:
+                perspective(900px)
+                rotateX(0deg)
+                rotateY(0deg)
+                translateY(-3px);
+        }
+
+
+        .mini-preview::before {
+            content: "";
+
+            position: absolute;
+
+            width: 130px;
+            height: 130px;
+
+            border-radius: 50%;
+
+            right: -45px;
+            top: -50px;
+
+            background:
+                rgba(255, 255, 255, 0.14);
+        }
+
+
+        .mini-preview::after {
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            border-radius: 30px;
+
+            left: -45px;
+            bottom: -55px;
+
+            background:
+                rgba(255, 255, 255, 0.08);
+
+            transform: rotate(25deg);
+        }
+
+
+        .preview-label {
+            position: relative;
+            z-index: 2;
+
+            font-size: 10px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+
+            opacity: 0.75;
+        }
+
+
+        .preview-title {
+            position: relative;
+            z-index: 2;
+
+            margin-top: 14px;
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 18px;
+            font-weight: 800;
+
+            line-height: 1.25;
+        }
+
+
+        .preview-meta {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 7px;
+
+            margin-top: 16px;
+        }
+
+
+        .preview-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            padding: 6px 9px;
+
+            border-radius: 8px;
+
+            background:
+                rgba(255, 255, 255, 0.14);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            font-size: 10px;
+            font-weight: 600;
+
+            backdrop-filter: blur(10px);
+        }
+
+
+        /* =========================================================
+           FLASH
+        ========================================================= */
+
+        .flash-container {
+            margin-bottom: 22px;
+        }
+
+
+        .flash {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            padding: 13px 15px;
+
+            border-radius: 13px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        .flash.danger {
+            color: #b42318;
+
+            background: #fff1f1;
+
+            border:
+                1px solid #ffd6d6;
+        }
+
+
+        .flash.success {
+            color: #087443;
+
+            background: #ecfaf3;
+
+            border:
+                1px solid #c9f0dc;
+        }
+
+
+        /* =========================================================
+           MAIN FORM LAYOUT
+        ========================================================= */
+
+        .form-layout {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                290px;
+
+            gap: 25px;
+
+            align-items: start;
+        }
+
+
+        /* =========================================================
+           FORM CARD
+        ========================================================= */
+
+        .form-card {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.96),
+                    rgba(255, 255, 255, 0.82)
+                );
+
+            border:
+                1px solid rgba(255, 255, 255, 0.95);
+
+            border-radius: 24px;
+
+            padding: 31px;
+
+            box-shadow: var(--shadow-lg);
+
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+
+            transform:
+                perspective(1400px)
+                rotateX(0deg);
+
+            transition:
+                box-shadow 0.35s ease,
+                transform 0.35s ease;
+        }
+
+
+        .form-card:hover {
+            box-shadow:
+                0 35px 90px rgba(30, 27, 58, 0.16);
+        }
+
+
+        .form-card::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 35px;
+            right: 35px;
+
+            height: 3px;
+
+            border-radius: 0 0 10px 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--primary),
+                    var(--secondary),
+                    var(--pink)
+                );
+        }
+
+
+        /* =========================================================
+           SECTION
+        ========================================================= */
+
+        .form-section {
+            margin-bottom: 34px;
+        }
+
+
+        .form-section:last-child {
+            margin-bottom: 0;
+        }
+
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding-bottom: 17px;
+
+            margin-bottom: 22px;
+
+            border-bottom:
+                1px solid rgba(30, 27, 58, 0.07);
+        }
+
+
+        .section-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .section-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            color: var(--primary);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(79, 70, 229, 0.11),
+                    rgba(124, 58, 237, 0.08)
+                );
+
+            border:
+                1px solid rgba(79, 70, 229, 0.09);
+        }
+
+
+        .section-title {
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+
+        .section-subtitle {
+            color: var(--muted);
+
+            font-size: 11px;
+
+            margin-top: 3px;
+        }
+
+
+        .required-note {
+            color: #9995a7;
+
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+
+        /* =========================================================
+           GRID
+        ========================================================= */
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+
+            gap: 20px;
+        }
+
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+
+        label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            color: #37334e;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        label i {
+            color: var(--primary);
+
+            font-size: 11px;
+        }
+
+
+        label span {
+            color: var(--red);
+        }
+
+
+        /* =========================================================
+           INPUT WRAPPER
+        ========================================================= */
+
+        .input-wrapper {
+            position: relative;
+        }
+
+
+        .input-icon {
+            position: absolute;
+
+            left: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #9a96aa;
+
+            font-size: 13px;
+
+            pointer-events: none;
+
+            transition:
+                color 0.2s ease;
+        }
+
+
+        .input-wrapper input {
+            padding-left: 39px;
+        }
+
+
+        .input-wrapper:focus-within .input-icon {
+            color: var(--primary);
+        }
+
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+
+            border:
+                1px solid #e1dfeb;
+
+            border-radius: 12px;
+
+            padding: 13px 14px;
+
+            color: var(--ink);
+
+            background:
+                rgba(255, 255, 255, 0.92);
+
+            font-size: 13px;
+
+            outline: none;
+
+            box-shadow:
+                inset 0 1px 1px rgba(30, 27, 58, 0.02);
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease,
+                background 0.2s ease;
+        }
+
+
+        input:hover,
+        textarea:hover,
+        select:hover {
+            border-color: #c9c5d8;
+        }
+
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: var(--primary);
+
+            background: #ffffff;
+
+            box-shadow:
+                0 0 0 4px rgba(79, 70, 229, 0.09),
+                0 8px 20px rgba(79, 70, 229, 0.06);
+
+            transform: translateY(-1px);
+        }
+
+
+        input::placeholder,
+        textarea::placeholder {
+            color: #aaa7b7;
+        }
+
+
+        textarea {
+            min-height: 145px;
+
+            resize: vertical;
+
+            line-height: 1.6;
+        }
+
+
+        select {
+            cursor: pointer;
+        }
+
+
+        .helper {
+            color: #8b8799;
+
+            font-size: 10px;
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           TIME
+        ========================================================= */
+
+        .time-wrapper {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr 1fr;
+
+            gap: 8px;
+        }
+
+
+        .time-wrapper select {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+
+        /* =========================================================
+           CAPACITY
+        ========================================================= */
+
+        .capacity-box {
+            position: relative;
+        }
+
+
+        .capacity-box input {
+            padding-right: 60px;
+        }
+
+
+        .capacity-suffix {
+            position: absolute;
+
+            right: 13px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #8c889a;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+           STATUS
+        ========================================================= */
+
+        .status-card {
+            position: relative;
+
+            display: grid;
+
+            grid-template-columns:
+                44px 1fr;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(79, 70, 229, 0.055),
+                    rgba(124, 58, 237, 0.035)
+                );
+
+            border:
+                1px solid rgba(79, 70, 229, 0.09);
+        }
+
+
+        .status-icon {
+            width: 44px;
+            height: 44px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            color: var(--primary);
+
+            background:
+                rgba(79, 70, 229, 0.09);
+        }
+
+
+        .status-content strong {
+            display: block;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            margin-bottom: 3px;
+        }
+
+
+        .status-content p {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           ACTIONS
+        ========================================================= */
+
+        .actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+
+            gap: 11px;
+
+            padding-top: 25px;
+
+            margin-top: 5px;
+
+            border-top:
+                1px solid rgba(30, 27, 58, 0.07);
+        }
+
+
+        .btn {
+            min-height: 45px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            padding: 0 18px;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.22s ease,
+                box-shadow 0.22s ease,
+                background 0.22s ease;
+        }
+
+
+        .btn-cancel {
+            color: #625e72;
+
+            background:
+                #f1f0f5;
+        }
+
+
+        .btn-cancel:hover {
+            transform: translateY(-2px);
+
+            background: #e9e7ef;
+        }
+
+
+        .btn-submit {
+            position: relative;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--secondary)
+                );
+
+            box-shadow:
+                0 10px 25px rgba(79, 70, 229, 0.25);
+
+            overflow: hidden;
+        }
+
+
+        .btn-submit::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -100%;
+
+            width: 70%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.28),
+                    transparent
+                );
+
+            transform: skewX(-20deg);
+
+            transition:
+                left 0.55s ease;
+        }
+
+
+        .btn-submit:hover::before {
+            left: 140%;
+        }
+
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 32px rgba(79, 70, 229, 0.32);
+        }
+
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+
+        /* =========================================================
+           SIDE PANEL
+        ========================================================= */
+
+        .side-column {
+            display: flex;
+            flex-direction: column;
+
+            gap: 18px;
+
+            position: sticky;
+            top: 96px;
+        }
+
+
+        .side-card {
+            padding: 20px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255, 255, 255, 0.78);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.9);
+
+            box-shadow: var(--shadow-md);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+        }
+
+
+        .side-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+
+            font-family:
+                "Plus Jakarta Sans",
+                sans-serif;
+
+            font-size: 13px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .side-card h3 i {
+            color: var(--primary);
+        }
+
+
+        /* =========================================================
+           STEPS
+        ========================================================= */
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+
+            gap: 13px;
+        }
+
+
+        .step {
+            display: grid;
+
+            grid-template-columns:
+                31px 1fr;
+
+            gap: 10px;
+
+            align-items: start;
+        }
+
+
+        .step-number {
+            width: 31px;
+            height: 31px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            color: var(--primary);
+
+            background:
+                rgba(79, 70, 229, 0.08);
+
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+
+        .step strong {
+            display: block;
+
+            font-size: 11px;
+
+            margin-bottom: 3px;
+        }
+
+
+        .step p {
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================================================
+           TIP CARD
+        ========================================================= */
+
+        .tip-card {
+            position: relative;
+
+            overflow: hidden;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #11102a,
+                    #27234f
+                );
+        }
+
+
+        .tip-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            right: -65px;
+            top: -65px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(124, 58, 237, 0.28);
+        }
+
+
+        .tip-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 100px;
+            height: 100px;
+
+            left: -50px;
+            bottom: -55px;
+
+            border-radius: 30px;
+
+            background:
+                rgba(236, 72, 153, 0.16);
+
+            transform: rotate(25deg);
+        }
+
+
+        .tip-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+
+        .tip-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 14px;
+
+            border-radius: 11px;
+
+            color: #fff;
+
+            background:
+                rgba(255, 255, 255, 0.11);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.12);
+        }
+
+
+        .tip-card h3 {
+            color: white;
+
+            margin-bottom: 8px;
+        }
+
+
+        .tip-card p {
+            color: rgba(255, 255, 255, 0.70);
+
+            font-size: 10px;
+
+            line-height: 1.7;
+        }
+
+
+        /* =========================================================
+           LOADING
+        ========================================================= */
+
+        .btn-submit.loading {
+            pointer-events: none;
+
+            opacity: 0.85;
+        }
+
+
+        .btn-submit.loading .button-text {
+            opacity: 0;
+        }
+
+
+        .btn-submit.loading::after {
+            content: "";
+
+            position: absolute;
+
+            width: 17px;
+            height: 17px;
+
+            border-radius: 50%;
+
+            border:
+                2px solid rgba(255,255,255,0.4);
+
+            border-top-color: white;
+
+            animation:
+                spin 0.7s linear infinite;
+        }
+
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1050px) {
+
+            .form-layout {
+                grid-template-columns: 1fr;
+            }
+
+
+            .side-column {
+                position: static;
+
+                display: grid;
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        @media (max-width: 800px) {
+
+            .header-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .mini-preview {
+                display: none;
+            }
+
+
+            .form-card {
+                padding: 25px;
+            }
+        }
+
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                height: 68px;
+
+                padding: 0 4%;
+            }
+
+
+            .brand {
+                font-size: 18px;
+            }
+
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+
+            .user-text {
+                display: none;
+            }
+
+
+            .page {
+                width: 92%;
+
+                padding-top: 28px;
+            }
+
+
+            .page-header h1 {
+                font-size: 30px;
+            }
+
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .form-group.full {
+                grid-column: auto;
+            }
+
+
+            .form-card {
+                padding: 20px;
+
+                border-radius: 19px;
+            }
+
+
+            .section-heading {
+                align-items: flex-start;
+            }
+
+
+            .required-note {
+                display: none;
+            }
+
+
+            .side-column {
+                grid-template-columns: 1fr;
+            }
+
+
+            .actions {
+                flex-direction: column-reverse;
+            }
+
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+
+        @media (max-width: 430px) {
+
+            .time-wrapper {
+                grid-template-columns:
+                    1fr 1fr 1fr;
+            }
+
+
+            .time-wrapper select {
+                font-size: 11px;
+
+                padding-left: 7px;
+                padding-right: 7px;
+            }
+
+
+            .section-icon {
+                width: 35px;
+                height: 35px;
+            }
+
+
+            .section-title {
+                font-size: 14px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================================
+         BACKGROUND
+    ========================================================= -->
+
+    <div class="background-scene">
+
+        <div class="orb orb-one"></div>
+        <div class="orb orb-two"></div>
+        <div class="orb orb-three"></div>
+
+    </div>
+
+
+    <!-- =========================================================
+         NAVBAR
+    ========================================================= -->
+
+    <nav class="navbar">
+
+        <a
+            href="{{ url_for('coordinator.dashboard') }}"
+            class="brand"
+        >
+
+            <span class="brand-icon">
+                <i class="fa-solid fa-calendar-days"></i>
+            </span>
+
+            CEMS
+
+        </a>
+
+
+        <div class="nav-right">
+
+            <div class="user-info">
+
+                <div class="avatar">
+                    {{ user.name[0]|upper }}
+                </div>
+
+                <div class="user-text">
+
+                    <strong>
+                        {{ user.name }}
+                    </strong>
+
+                    <span>
+                        College Coordinator
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="{{ url_for('auth.logout') }}"
+                class="logout"
+                title="Logout"
+            >
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================================================
+         PAGE
+    ========================================================= -->
+
+    <main class="page">
+
+
+        <!-- BACK -->
+
+        <a
+            href="{{ url_for('coordinator.dashboard') }}"
+            class="back-link"
+        >
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
+
+
+
+        <!-- =====================================================
+             HEADER
+        ====================================================== -->
+
+        <header class="page-header">
+
+            <div class="header-grid">
+
+                <div>
+
+                    <div class="eyebrow">
+
+                        <i class="fa-solid fa-sparkles"></i>
+
+                        Event Management
+
+                    </div>
+
+
+                    <h1>
+
+                        Create your next
+
+                        <span class="gradient-text">
+                            great event.
+                        </span>
+
+                    </h1>
+
+
+                    <p>
+
+                        Add the essential details, schedule, capacity,
+                        and publication status to create an event
+                        students can discover and join.
+
+                    </p>
+
+                </div>
+
+
+                <!-- MINI PREVIEW -->
+
+                <div class="mini-preview">
+
+                    <div class="preview-label">
+                        Live Preview
+                    </div>
+
+
+                    <div
+                        class="preview-title"
+                        id="previewTitle"
+                    >
+                        Your Event Title
+                    </div>
+
+
+                    <div class="preview-meta">
+
+                        <span class="preview-pill">
+
+                            <i class="fa-solid fa-layer-group"></i>
+
+                            <span id="previewCategory">
+                                Category
+                            </span>
+
+                        </span>
+
+
+                        <span class="preview-pill">
+
+                            <i class="fa-solid fa-users"></i>
+
+                            <span id="previewCapacity">
+                                0 seats
+                            </span>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =====================================================
+             FLASH MESSAGES
+        ====================================================== -->
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                <div class="flash-container">
+
+                    {% for category, message in messages %}
+
+                        <div class="flash {{ category }}">
+
+                            {% if category == "success" %}
+
+                                <i class="fa-solid fa-circle-check"></i>
+
+                            {% else %}
+
+                                <i class="fa-solid fa-circle-exclamation"></i>
+
+                            {% endif %}
+
+                            <span>
+                                {{ message }}
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endif %}
+
+        {% endwith %}
+
+
+
+        <!-- =====================================================
+             FORM LAYOUT
+        ====================================================== -->
+
+        <div class="form-layout">
+
+
+            <!-- =================================================
+                 MAIN FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                action="{{ url_for('coordinator.create_event') }}"
+                class="form-card"
+                id="createEventForm"
+            >
+
+
+                <!-- =============================================
+                     BASIC INFORMATION
+                ============================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-title-wrap">
+
+                            <div class="section-icon">
+
+                                <i class="fa-solid fa-circle-info"></i>
+
+                            </div>
+
+                            <div>
+
+                                <div class="section-title">
+                                    Basic Information
+                                </div>
+
+                                <div class="section-subtitle">
+                                    Define what your event is about.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="required-note">
+                            * Required fields
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-grid">
+
+
+                        <!-- EVENT TITLE -->
+
+                        <div class="form-group full">
+
+                            <label for="title">
+
+                                <i class="fa-solid fa-heading"></i>
+
+                                Event Title
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-pen input-icon"></i>
+
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    placeholder="Example: Annual Tech Innovation Fest"
+                                    maxlength="200"
+                                    autocomplete="off"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- CATEGORY -->
+
+                        <div class="form-group">
+
+                            <label for="category">
+
+                                <i class="fa-solid fa-layer-group"></i>
+
+                                Category
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <select
+                                id="category"
+                                name="category"
+                                required
+                            >
+
+                                <option value="">
+                                    Select category
+                                </option>
+
+                                <option value="Technical">
+                                    Technical
+                                </option>
+
+                                <option value="Cultural">
+                                    Cultural
+                                </option>
+
+                                <option value="Sports">
+                                    Sports
+                                </option>
+
+                                <option value="Workshop">
+                                    Workshop
+                                </option>
+
+                                <option value="Seminar">
+                                    Seminar
+                                </option>
+
+                                <option value="Competition">
+                                    Competition
+                                </option>
+
+                                <option value="Other">
+                                    Other
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- CAPACITY -->
+
+                        <div class="form-group">
+
+                            <label for="capacity">
+
+                                <i class="fa-solid fa-users"></i>
+
+                                Maximum Capacity
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="capacity-box">
+
+                                <input
+                                    type="number"
+                                    id="capacity"
+                                    name="capacity"
+                                    placeholder="Example: 100"
+                                    min="1"
+                                    max="100000"
+                                    required
+                                >
+
+                                <span class="capacity-suffix">
+                                    SEATS
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- DESCRIPTION -->
+
+                        <div class="form-group full">
+
+                            <label for="description">
+
+                                <i class="fa-solid fa-align-left"></i>
+
+                                Event Description
+
+                            </label>
+
+
+                            <textarea
+                                id="description"
+                                name="description"
+                                placeholder="Describe the event, activities, eligibility, and other important information..."
+                            ></textarea>
+
+
+                            <div class="helper">
+                                Give students enough information to understand the event before registering.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =============================================
+                     EVENT DETAILS
+                ============================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-title-wrap">
+
+                            <div class="section-icon">
+
+                                <i class="fa-solid fa-calendar-days"></i>
+
+                            </div>
+
+                            <div>
+
+                                <div class="section-title">
+                                    Event Details
+                                </div>
+
+                                <div class="section-subtitle">
+                                    Set the date, venue and event timing.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-grid">
+
+
+                        <!-- DATE -->
+
+                        <div class="form-group">
+
+                            <label for="event_date">
+
+                                <i class="fa-solid fa-calendar"></i>
+
+                                Event Date
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-calendar-day input-icon"></i>
+
+                                <input
+                                    type="date"
+                                    id="event_date"
+                                    name="event_date"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- VENUE -->
+
+                        <div class="form-group">
+
+                            <label for="venue">
+
+                                <i class="fa-solid fa-location-dot"></i>
+
+                                Venue
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="input-wrapper">
+
+                                <i class="fa-solid fa-building input-icon"></i>
+
+                                <input
+                                    type="text"
+                                    id="venue"
+                                    name="venue"
+                                    placeholder="Example: Main Auditorium"
+                                    maxlength="200"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- START TIME -->
+
+                        <div class="form-group">
+
+                            <label class="time-label">
+
+                                <i class="fa-solid fa-clock"></i>
+
+                                Start Time
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="time-wrapper">
+
+
+                                <select
+                                    name="start_hour"
+                                    id="start_hour"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Hour
+                                    </option>
+
+                                    {% for hour in range(1, 13) %}
+
+                                        <option
+                                            value="{{ '%02d'|format(hour) }}"
+                                        >
+                                            {{ hour }}
+                                        </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+
+
+                                <select
+                                    name="start_minute"
+                                    id="start_minute"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Minute
+                                    </option>
+
+                                    <option value="00">
+                                        00
+                                    </option>
+
+                                    <option value="15">
+                                        15
+                                    </option>
+
+                                    <option value="30">
+                                        30
+                                    </option>
+
+                                    <option value="45">
+                                        45
+                                    </option>
+
+                                </select>
+
+
+
+                                <select
+                                    name="start_period"
+                                    id="start_period"
+                                    required
+                                >
+
+                                    <option value="">
+                                        AM/PM
+                                    </option>
+
+                                    <option value="AM">
+                                        AM
+                                    </option>
+
+                                    <option value="PM">
+                                        PM
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- END TIME -->
+
+                        <div class="form-group">
+
+                            <label class="time-label">
+
+                                <i class="fa-solid fa-clock"></i>
+
+                                End Time
+
+                                <span>*</span>
+
+                            </label>
+
+
+                            <div class="time-wrapper">
+
+
+                                <select
+                                    name="end_hour"
+                                    id="end_hour"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Hour
+                                    </option>
+
+                                    {% for hour in range(1, 13) %}
+
+                                        <option
+                                            value="{{ '%02d'|format(hour) }}"
+                                        >
+                                            {{ hour }}
+                                        </option>
+
+                                    {% endfor %}
+
+                                </select>
+
+
+
+                                <select
+                                    name="end_minute"
+                                    id="end_minute"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Minute
+                                    </option>
+
+                                    <option value="00">
+                                        00
+                                    </option>
+
+                                    <option value="15">
+                                        15
+                                    </option>
+
+                                    <option value="30">
+                                        30
+                                    </option>
+
+                                    <option value="45">
+                                        45
+                                    </option>
+
+                                </select>
+
+
+
+                                <select
+                                    name="end_period"
+                                    id="end_period"
+                                    required
+                                >
+
+                                    <option value="">
+                                        AM/PM
+                                    </option>
+
+                                    <option value="AM">
+                                        AM
+                                    </option>
+
+                                    <option value="PM">
+                                        PM
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =============================================
+                     PUBLICATION
+                ============================================== -->
+
+                <section class="form-section">
+
+                    <div class="section-heading">
+
+                        <div class="section-title-wrap">
+
+                            <div class="section-icon">
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </div>
+
+                            <div>
+
+                                <div class="section-title">
+                                    Publication
+                                </div>
+
+                                <div class="section-subtitle">
+                                    Control whether students can discover the event.
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-grid">
+
+
+                        <div class="form-group">
+
+                            <label for="status">
+
+                                <i class="fa-solid fa-globe"></i>
+
+                                Event Status
+
+                            </label>
+
+
+                            <select
+                                id="status"
+                                name="status"
+                            >
+
+                                <option value="draft">
+                                    Draft
+                                </option>
+
+                                <option value="published">
+                                    Published
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="status-card">
+
+                            <div class="status-icon">
+
+                                <i
+                                    id="statusIcon"
+                                    class="fa-solid fa-file-pen"
+                                ></i>
+
+                            </div>
+
+
+                            <div class="status-content">
+
+                                <strong id="statusTitle">
+                                    Draft mode
+                                </strong>
+
+                                <p id="statusDescription">
+                                    Students will not see this event yet.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =============================================
+                     ACTIONS
+                ============================================== -->
+
+                <div class="actions">
+
+
+                    <a
+                        href="{{ url_for('coordinator.dashboard') }}"
+                        class="btn btn-cancel"
+                    >
+
+                        <i class="fa-solid fa-xmark"></i>
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-submit"
+                        id="submitButton"
+                    >
+
+                        <i class="fa-solid fa-paper-plane"></i>
+
+                        <span class="button-text">
+                            Save Event
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+
+            <!-- =================================================
+                 SIDE COLUMN
+            ================================================== -->
+
+            <aside class="side-column">
+
+
+                <!-- EVENT CREATION STEPS -->
+
+                <div class="side-card">
+
+                    <h3>
+
+                        <i class="fa-solid fa-route"></i>
+
+                        Event Setup
+
+                    </h3>
+
+
+                    <div class="steps">
+
+
+                        <div class="step">
+
+                            <div class="step-number">
+                                01
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Basic Information
+                                </strong>
+
+                                <p>
+                                    Add title, category, capacity and description.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="step">
+
+                            <div class="step-number">
+                                02
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Schedule
+                                </strong>
+
+                                <p>
+                                    Select the event date, venue and time.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="step">
+
+                            <div class="step-number">
+                                03
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Publish
+                                </strong>
+
+                                <p>
+                                    Keep it as draft or make it visible to students.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- TIP -->
+
+                <div class="side-card tip-card">
+
+                    <div class="tip-icon">
+
+                        <i class="fa-solid fa-lightbulb"></i>
+
+                    </div>
+
+
+                    <h3>
+                        Professional tip
+                    </h3>
+
+
+                    <p>
+
+                        Use a clear event title and description.
+                        Students should understand what the event
+                        offers before they register.
+
+                    </p>
+
+                </div>
+
+
+
+                <!-- QUICK INFO -->
+
+                <div class="side-card">
+
+                    <h3>
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                        Form Information
+
+                    </h3>
+
+
+                    <div class="steps">
+
+
+                        <div class="step">
+
+                            <div class="step-number">
+
+                                <i class="fa-solid fa-check"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Required fields
+                                </strong>
+
+                                <p>
+                                    Title, category, capacity, date, venue and time.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="step">
+
+                            <div class="step-number">
+
+                                <i class="fa-solid fa-clock"></i>
+
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Time validation
+                                </strong>
+
+                                <p>
+                                    End time must be later than start time.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </aside>
+
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================= -->
+
+    <script>
+
+        const form =
+            document.getElementById("createEventForm");
+
+
+        const titleInput =
+            document.getElementById("title");
+
+
+        const categoryInput =
+            document.getElementById("category");
+
+
+        const capacityInput =
+            document.getElementById("capacity");
+
+
+        const statusInput =
+            document.getElementById("status");
+
+
+        const previewTitle =
+            document.getElementById("previewTitle");
+
+
+        const previewCategory =
+            document.getElementById("previewCategory");
+
+
+        const previewCapacity =
+            document.getElementById("previewCapacity");
+
+
+        const statusTitle =
+            document.getElementById("statusTitle");
+
+
+        const statusDescription =
+            document.getElementById("statusDescription");
+
+
+        const statusIcon =
+            document.getElementById("statusIcon");
+
+
+        const submitButton =
+            document.getElementById("submitButton");
+
+
+
+        /* =====================================================
+           LIVE TITLE PREVIEW
+        ====================================================== */
+
+        titleInput.addEventListener(
+            "input",
+            function () {
+
+                const value =
+                    this.value.trim();
+
+                previewTitle.textContent =
+                    value || "Your Event Title";
+
+            }
+        );
+
+
+
+        /* =====================================================
+           LIVE CATEGORY PREVIEW
+        ====================================================== */
+
+        categoryInput.addEventListener(
+            "change",
+            function () {
+
+                previewCategory.textContent =
+                    this.value || "Category";
+
+            }
+        );
+
+
+
+        /* =====================================================
+           LIVE CAPACITY PREVIEW
+        ====================================================== */
+
+        capacityInput.addEventListener(
+            "input",
+            function () {
+
+                const value =
+                    this.value.trim();
+
+                previewCapacity.textContent =
+                    value
+                        ? `${value} seats`
+                        : "0 seats";
+
+            }
+        );
+
+
+
+        /* =====================================================
+           STATUS UI
+        ====================================================== */
+
+        function updateStatusUI() {
+
+            if (statusInput.value === "published") {
+
+                statusTitle.textContent =
+                    "Published mode";
+
+                statusDescription.textContent =
+                    "Students can discover and register for this event.";
+
+                statusIcon.className =
+                    "fa-solid fa-globe";
+
+            } else {
+
+                statusTitle.textContent =
+                    "Draft mode";
+
+                statusDescription.textContent =
+                    "Students will not see this event yet.";
+
+                statusIcon.className =
+                    "fa-solid fa-file-pen";
+
+            }
+
+        }
+
+
+        statusInput.addEventListener(
+            "change",
+            updateStatusUI
+        );
+
+
+        updateStatusUI();
+
+
+
+        /* =====================================================
+           TIME CONVERSION
+        ====================================================== */
+
+        function convertToMinutes(
+            hour,
+            minute,
+            period
+        ) {
+
+            let h =
+                parseInt(hour, 10);
+
+            const m =
+                parseInt(minute, 10);
+
+
+            if (period === "AM") {
+
+                if (h === 12) {
+                    h = 0;
+                }
+
+            } else {
+
+                if (h !== 12) {
+                    h += 12;
+                }
+
+            }
+
+
+            return (
+                (h * 60) + m
+            );
+
+        }
+
+
+
+        /* =====================================================
+           FORM SUBMIT VALIDATION
+        ====================================================== */
+
+        form.addEventListener(
+            "submit",
+            function (event) {
+
+
+                const startHour =
+                    document.getElementById(
+                        "start_hour"
+                    ).value;
+
+
+                const startMinute =
+                    document.getElementById(
+                        "start_minute"
+                    ).value;
+
+
+                const startPeriod =
+                    document.getElementById(
+                        "start_period"
+                    ).value;
+
+
+                const endHour =
+                    document.getElementById(
+                        "end_hour"
+                    ).value;
+
+
+                const endMinute =
+                    document.getElementById(
+                        "end_minute"
+                    ).value;
+
+
+                const endPeriod =
+                    document.getElementById(
+                        "end_period"
+                    ).value;
+
+
+
+                /*
+                    Browser required validation normally
+                    handles these fields.
+
+                    This check keeps the JavaScript safe
+                    when a field is empty.
+                */
+
+                if (
+                    !startHour ||
+                    !startMinute ||
+                    !startPeriod ||
+                    !endHour ||
+                    !endMinute ||
+                    !endPeriod
+                ) {
+
+                    return;
+
+                }
+
+
+
+                const startTotalMinutes =
+                    convertToMinutes(
+                        startHour,
+                        startMinute,
+                        startPeriod
+                    );
+
+
+                const endTotalMinutes =
+                    convertToMinutes(
+                        endHour,
+                        endMinute,
+                        endPeriod
+                    );
+
+
+
+                if (
+                    endTotalMinutes <=
+                    startTotalMinutes
+                ) {
+
+                    event.preventDefault();
+
+
+                    alert(
+                        "End time must be later than start time.\n\n" +
+                        "Example:\n" +
+                        "Start: 10:00 AM\n" +
+                        "End: 01:00 PM"
+                    );
+
+
+                    document
+                        .getElementById(
+                            "end_hour"
+                        )
+                        .focus();
+
+
+                    return;
+
+                }
+
+
+
+                /*
+                    Loading state
+                */
+
+                submitButton.classList.add(
+                    "loading"
+                );
+
+            }
+        );
+
+
+
+        /* =====================================================
+           3D FORM CARD TILT
+        ====================================================== */
+
+        const formCard =
+            document.querySelector(
+                ".form-card"
+            );
+
+
+        if (
+            formCard &&
+            window.matchMedia(
+                "(min-width: 900px)"
+            ).matches
+        ) {
+
+            formCard.addEventListener(
+                "mousemove",
+                function (event) {
+
+                    const rect =
+                        formCard.getBoundingClientRect();
+
+
+                    const x =
+                        event.clientX -
+                        rect.left;
+
+
+                    const y =
+                        event.clientY -
+                        rect.top;
+
+
+                    const centerX =
+                        rect.width / 2;
+
+
+                    const centerY =
+                        rect.height / 2;
+
+
+                    const rotateY =
+                        ((x - centerX) / centerX) * 1.2;
+
+
+                    const rotateX =
+                        ((centerY - y) / centerY) * 0.7;
+
+
+                    formCard.style.transform =
+                        `
+                        perspective(1400px)
+                        rotateX(${rotateX}deg)
+                        rotateY(${rotateY}deg)
+                        translateY(-2px)
+                        `;
+
+                }
+            );
+
+
+            formCard.addEventListener(
+                "mouseleave",
+                function () {
+
+                    formCard.style.transform =
+                        `
+                        perspective(1400px)
+                        rotateX(0deg)
+                        rotateY(0deg)
+                        translateY(0)
+                        `;
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           AUTO SET MINIMUM DATE
+        ====================================================== */
+
+        const dateInput =
+            document.getElementById(
+                "event_date"
+            );
+
+
+        if (dateInput) {
+
+            const today =
+                new Date();
+
+
+            const year =
+                today.getFullYear();
+
+
+            const month =
+                String(
+                    today.getMonth() + 1
+                ).padStart(2, "0");
+
+
+            const day =
+                String(
+                    today.getDate()
+                ).padStart(2, "0");
+
+
+            dateInput.min =
+                `${year}-${month}-${day}`;
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

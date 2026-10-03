@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Edit Event | CEMS</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+
+            background: #f7f7fb;
+
+            color: #1e1b3a;
+        }
+
+        a {
+            text-decoration: none;
+
+            color: inherit;
+        }
+
+        .navbar {
+            height: 72px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #e9e7f2;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 6%;
+        }
+
+        .brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 21px;
+
+            font-weight: 800;
+        }
+
+        .brand-icon {
+            width: 40px;
+
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #ec4899
+            );
+        }
+
+        .nav-right {
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+        }
+
+        .user-info {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            background: #4f46e5;
+
+            font-weight: 700;
+        }
+
+        .user-text strong {
+            display: block;
+
+            font-size: 14px;
+        }
+
+        .user-text span {
+            font-size: 12px;
+
+            color: #77738a;
+        }
+
+        .logout {
+            padding: 9px 14px;
+
+            border-radius: 9px;
+
+            color: #55516b;
+
+            background: #f3f2f8;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .container {
+            width: min(900px, 92%);
+
+            margin: 0 auto;
+
+            padding: 40px 0 70px;
+        }
+
+        .back-link {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #6b677d;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            color: #4f46e5;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 30px;
+
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+            color: #77738a;
+
+            font-size: 14px;
+        }
+
+        .form-card {
+            background: white;
+
+            border: 1px solid #eceaf3;
+
+            border-radius: 18px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 10px 35px
+                rgba(30, 27, 58, 0.05);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-family: "Plus Jakarta Sans", sans-serif;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            padding-bottom: 14px;
+
+            border-bottom: 1px solid #eeeef4;
+
+            margin-bottom: 20px;
+        }
+
+        .section-title i {
+            color: #4f46e5;
+        }
+
+        .grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+        }
+
+        .group {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 8px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #38344f;
+        }
+
+        label span {
+            color: #ef4444;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+
+            border: 1px solid #dedce8;
+
+            border-radius: 10px;
+
+            padding: 12px 13px;
+
+            background: white;
+
+            color: #1e1b3a;
+
+            font-family: "Inter", sans-serif;
+
+            font-size: 14px;
+
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #4f46e5;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(79, 70, 229, 0.10);
+        }
+
+        textarea {
+            min-height: 130px;
+
+            resize: vertical;
+        }
+
+        .time-wrapper {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr 1fr;
+
+            gap: 8px;
+        }
+
+        .helper {
+            color: #8a8798;
+
+            font-size: 11px;
+
+            line-height: 1.5;
+        }
+
+        .actions {
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 12px;
+
+            padding-top: 25px;
+
+            border-top: 1px solid #eeeef4;
+        }
+
+        .btn {
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 12px 19px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+        .cancel {
+            color: #5d596d;
+
+            background: #f2f1f6;
+        }
+
+        .save {
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #4f46e5,
+                #7c3aed
+            );
+
+            box-shadow:
+                0 7px 18px
+                rgba(79, 70, 229, 0.20);
+        }
+
+        .flash-container {
+            margin-bottom: 20px;
+        }
+
+        .flash {
+            padding: 13px 15px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+        .flash.danger {
+            color: #b42318;
+
+            background: #fff0f0;
+
+            border: 1px solid #ffd6d6;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 4%;
+            }
+
+            .user-text {
+                display: none;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .actions {
+                flex-direction: column-reverse;
+            }
+
+            .btn {
+                width: 100%;
+
+                justify-content: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <a
+        href="{{ url_for('coordinator.dashboard') }}"
+        class="brand"
+    >
+
+        <span class="brand-icon">
+
+            <i class="fa-solid fa-calendar-days"></i>
+
+        </span>
+
+        CEMS
+
+    </a>
+
+
+    <div class="nav-right">
+
+        <div class="user-info">
+
+            <div class="avatar">
+
+                {{ user.name[0]|upper }}
+
+            </div>
+
+
+            <div class="user-text">
+
+                <strong>
+                    {{ user.name }}
+                </strong>
+
+                <span>
+                    College Coordinator
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('auth.logout') }}"
+            class="logout"
+        >
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<main class="container">
+
+
+    <a
+        href="{{ url_for('coordinator.manage_events') }}"
+        class="back-link"
+    >
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back to Manage Events
+
+    </a>
+
+
+    <div class="page-header">
+
+        <h1>
+            Edit Event
+        </h1>
+
+        <p>
+            Update the event information and publication status.
+        </p>
+
+    </div>
+
+
+
+    {% with messages = get_flashed_messages(
+        with_categories=true
+    ) %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for category, message in messages %}
+
+                    <div class="flash {{ category }}">
+
+                        {{ message }}
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'coordinator.edit_event',
+            event_id=event.id
+        ) }}"
+        class="form-card"
+        id="editEventForm"
+    >
+
+
+        <!-- BASIC INFORMATION -->
+
+        <section class="section">
+
+            <div class="section-title">
+
+                <i class="fa-solid fa-circle-info"></i>
+
+                Basic Information
+
+            </div>
+
+
+            <div class="grid">
+
+
+                <div class="group full">
+
+                    <label for="title">
+
+                        Event Title
+
+                        <span>*</span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        maxlength="200"
+                        value="{{ event.title }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="group">
+
+                    <label for="category">
+
+                        Category
+
+                        <span>*</span>
+
+                    </label>
+
+                    <select
+                        id="category"
+                        name="category"
+                        required
+                    >
+
+                        {% for item in [
+                            "Technical",
+                            "Cultural",
+                            "Sports",
+                            "Workshop",
+                            "Seminar",
+                            "Competition",
+                            "Other"
+                        ] %}
+
+                            <option
+                                value="{{ item }}"
+                                {% if event.category == item %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ item }}
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <div class="group">
+
+                    <label for="capacity">
+
+                        Maximum Capacity
+
+                        <span>*</span>
+
+                    </label>
+
+                    <input
+                        type="number"
+                        id="capacity"
+                        name="capacity"
+                        min="1"
+                        max="100000"
+                        value="{{ event.capacity }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="group full">
+
+                    <label for="description">
+
+                        Event Description
+
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                    >{{ event.description or "" }}</textarea>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- EVENT DETAILS -->
+
+        <section class="section">
+
+            <div class="section-title">
+
+                <i class="fa-solid fa-calendar-days"></i>
+
+                Event Details
+
+            </div>
+
+
+            <div class="grid">
+
+
+                <div class="group">
+
+                    <label for="event_date">
+
+                        Event Date
+
+                        <span>*</span>
+
+                    </label>
+
+                    <input
+                        type="date"
+                        id="event_date"
+                        name="event_date"
+                        value="{{ event.event_date.strftime('%Y-%m-%d') }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="group">
+
+                    <label for="venue">
+
+                        Venue
+
+                        <span>*</span>
+
+                    </label>
+
+                    <input
+                        type="text"
+                        id="venue"
+                        name="venue"
+                        maxlength="200"
+                        value="{{ event.venue }}"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- START TIME -->
+
+                <div class="group">
+
+                    <label>
+
+                        Start Time
+
+                        <span>*</span>
+
+                    </label>
+
+
+                    <div
+                        class="time-wrapper"
+                        id="startTimeWrapper"
+                    >
+
+                        <select
+                            name="start_hour"
+                            id="start_hour"
+                            required
+                        >
+
+                            <option value="">
+                                Hour
+                            </option>
+
+                            {% for hour in range(1, 13) %}
+
+                                <option
+                                    value="{{ '%02d'|format(hour) }}"
+                                >
+                                    {{ hour }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+
+                        <select
+                            name="start_minute"
+                            id="start_minute"
+                            required
+                        >
+
+                            <option value="">
+                                Minute
+                            </option>
+
+                            {% for minute in [
+                                "00",
+                                "15",
+                                "30",
+                                "45"
+                            ] %}
+
+                                <option value="{{ minute }}">
+
+                                    {{ minute }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+
+                        <select
+                            name="start_period"
+                            id="start_period"
+                            required
+                        >
+
+                            <option value="">
+                                AM/PM
+                            </option>
+
+                            <option value="AM">
+                                AM
+                            </option>
+
+                            <option value="PM">
+                                PM
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- END TIME -->
+
+                <div class="group">
+
+                    <label>
+
+                        End Time
+
+                        <span>*</span>
+
+                    </label>
+
+
+                    <div
+                        class="time-wrapper"
+                        id="endTimeWrapper"
+                    >
+
+                        <select
+                            name="end_hour"
+                            id="end_hour"
+                            required
+                        >
+
+                            <option value="">
+                                Hour
+                            </option>
+
+                            {% for hour in range(1, 13) %}
+
+                                <option
+                                    value="{{ '%02d'|format(hour) }}"
+                                >
+                                    {{ hour }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+
+                        <select
+                            name="end_minute"
+                            id="end_minute"
+                            required
+                        >
+
+                            <option value="">
+                                Minute
+                            </option>
+
+                            {% for minute in [
+                                "00",
+                                "15",
+                                "30",
+                                "45"
+                            ] %}
+
+                                <option value="{{ minute }}">
+
+                                    {{ minute }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+
+                        <select
+                            name="end_period"
+                            id="end_period"
+                            required
+                        >
+
+                            <option value="">
+                                AM/PM
+                            </option>
+
+                            <option value="AM">
+                                AM
+                            </option>
+
+                            <option value="PM">
+                                PM
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PUBLICATION -->
+
+        <section class="section">
+
+            <div class="section-title">
+
+                <i class="fa-solid fa-eye"></i>
+
+                Publication
+
+            </div>
+
+
+            <div class="grid">
+
+                <div class="group">
+
+                    <label for="status">
+                        Event Status
+                    </label>
+
+                    <select
+                        id="status"
+                        name="status"
+                    >
+
+                        <option
+                            value="draft"
+                            {% if event.status == "draft" %}
+                                selected
+                            {% endif %}
+                        >
+                            Draft
+                        </option>
+
+                        <option
+                            value="published"
+                            {% if event.status == "published" %}
+                                selected
+                            {% endif %}
+                        >
+                            Published
+                        </option>
+
+                    </select>
+
+                    <div class="helper">
+
+                        Published events can be discovered by students.
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ACTIONS -->
+
+        <div class="actions">
+
+            <a
+                href="{{ url_for('coordinator.manage_events') }}"
+                class="btn cancel"
+            >
+                Cancel
+            </a>
+
+
+            <button
+                type="submit"
+                class="btn save"
+            >
+
+                <i class="fa-solid fa-floppy-disk"></i>
+
+                Save Changes
+
+            </button>
+
+        </div>
+
+
+    </form>
+
+</main>
+
+
+
+<script>
+
+    const form =
+        document.getElementById(
+            "editEventForm"
+        );
+
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            const startHour =
+                document.getElementById(
+                    "start_hour"
+                ).value;
+
+            const startMinute =
+                document.getElementById(
+                    "start_minute"
+                ).value;
+
+            const startPeriod =
+                document.getElementById(
+                    "start_period"
+                ).value;
+
+
+            const endHour =
+                document.getElementById(
+                    "end_hour"
+                ).value;
+
+            const endMinute =
+                document.getElementById(
+                    "end_minute"
+                ).value;
+
+            const endPeriod =
+                document.getElementById(
+                    "end_period"
+                ).value;
+
+
+            function toMinutes(
+                hour,
+                minute,
+                period
+            ) {
+
+                let h =
+                    parseInt(hour);
+
+                const m =
+                    parseInt(minute);
+
+
+                if (period === "AM") {
+
+                    if (h === 12) {
+                        h = 0;
+                    }
+
+                } else {
+
+                    if (h !== 12) {
+                        h += 12;
+                    }
+
+                }
+
+
+                return (
+                    (h * 60) + m
+                );
+
+            }
+
+
+            if (
+                startHour &&
+                startMinute &&
+                startPeriod &&
+                endHour &&
+                endMinute &&
+                endPeriod
+            ) {
+
+                const start =
+                    toMinutes(
+                        startHour,
+                        startMinute,
+                        startPeriod
+                    );
+
+
+                const end =
+                    toMinutes(
+                        endHour,
+                        endMinute,
+                        endPeriod
+                    );
+
+
+                if (end <= start) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "End time must be later than start time."
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

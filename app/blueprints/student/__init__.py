@@ -1,0 +1,1 @@
+from app.blueprints.student.routes import student_bp

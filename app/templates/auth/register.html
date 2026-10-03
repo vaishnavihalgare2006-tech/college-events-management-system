@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | CEMS</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f5f7ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .register-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 36px;
+            box-shadow: 0 15px 40px rgba(30, 27, 58, 0.12);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand h1 {
+            color: #4F46E5;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .brand p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #1e1b3a;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #dbe1ea;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
+            color: #1e1b3a;
+            background: #ffffff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #4F46E5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 90px;
+        }
+
+        .show-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #4F46E5;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .password-strength {
+            margin-top: 7px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .register-button {
+            width: 100%;
+            height: 48px;
+            border: none;
+            border-radius: 10px;
+            background: #4F46E5;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .register-button:hover {
+            background: #4338CA;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .login-link a {
+            color: #4F46E5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .flash-messages {
+            margin-bottom: 18px;
+        }
+
+        .flash {
+            padding: 12px 14px;
+            border-radius: 9px;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .flash-success {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .flash-danger {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 14px;
+            }
+
+            .register-card {
+                padding: 26px 20px;
+            }
+
+            .brand h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="register-container">
+
+    <div class="register-card">
+
+        <div class="brand">
+            <h1>CEMS</h1>
+            <p>Create your student account</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <div class="form-group">
+                <label for="name">Full Name</label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="department">Department</label>
+
+                <input
+                    type="text"
+                    id="department"
+                    name="department"
+                    placeholder="e.g. MCA, BCA, BSc CS"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+
+                <div class="password-wrapper">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-password"
+                        onclick="togglePassword()"
+                    >
+                        Show
+                    </button>
+
+                </div>
+
+                <div
+                    id="passwordStrength"
+                    class="password-strength"
+                >
+                    Use at least 8 characters.
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                class="register-button"
+            >
+                Create Account
+            </button>
+
+        </form>
+
+        <div class="login-link">
+            Already have an account?
+            <a href="{{ url_for('auth.login') }}">
+                Login
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById("password");
+        const button = document.querySelector(".show-password");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            button.textContent = "Hide";
+        } else {
+            passwordInput.type = "password";
+            button.textContent = "Show";
+        }
+    }
+
+
+    const passwordInput = document.getElementById("password");
+    const passwordStrength = document.getElementById("passwordStrength");
+
+    passwordInput.addEventListener("input", function () {
+        const password = passwordInput.value;
+
+        if (password.length === 0) {
+            passwordStrength.textContent =
+                "Use at least 8 characters.";
+        } else if (password.length < 6) {
+            passwordStrength.textContent =
+                "Weak password.";
+        } else if (password.length < 8) {
+            passwordStrength.textContent =
+                "Medium password. Use at least 8 characters.";
+        } else {
+            passwordStrength.textContent =
+                "Password length looks good.";
+        }
+    });
+</script>
+
+</body>
+</html>
